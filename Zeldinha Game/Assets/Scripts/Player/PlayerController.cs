@@ -99,7 +99,7 @@ public class PlayerController : MonoBehaviour
         Quaternion q1 = Quaternion.LookRotation(inputVector);
         Quaternion q2 = Quaternion.Euler(0, cam.transform.eulerAngles.y, 0);
         Quaternion toRotation = q1 * q2;
-        Quaternion smoothRotation = Quaternion.Lerp(transform.rotation, toRotation, 0.15f);
+        Quaternion smoothRotation = Quaternion.Lerp(transform.rotation, toRotation, 0.3f);
 
         // Apply rotation
         rb.MoveRotation(smoothRotation);

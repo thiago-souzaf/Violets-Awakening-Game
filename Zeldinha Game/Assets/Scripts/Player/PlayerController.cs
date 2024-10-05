@@ -23,6 +23,10 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public Collider col;
     [HideInInspector] public bool hasJumpInput;
 
+    // Slope
+    private bool isOnSlope;
+    [HideInInspector] public Vector3 slopeNormal;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -60,12 +64,17 @@ public class PlayerController : MonoBehaviour
         anim.SetFloat("fVelocity", speedRate);
 
         stateMachine.Update();
-        
+
+        DetectSlope();
     }
 
     private void FixedUpdate()
     {
         stateMachine.FixedUpdate();
+
+        // Apply gravity
+        Vector3 gravityForce = Physics.gravity * (isOnSlope ? 0.25f : 1f);
+        rb.AddForce(gravityForce, ForceMode.Acceleration);
     }
 
     private void LateUpdate()
@@ -98,13 +107,26 @@ public class PlayerController : MonoBehaviour
 
     public bool DetectGround()
     {
-        return Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, downRayDistance, GameManager.Instance.groundLayer);
+        return Physics.Raycast(transform.position, Vector3.down, downRayDistance, GameManager.Instance.groundLayer);
+    }
 
+    private void DetectSlope()
+    {
+        isOnSlope = false;
+        slopeNormal = Vector3.up;
+        if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, downRayDistance))
+        {
+            if (Vector3.Dot(hit.normal, Vector3.up) < 0.99f)
+            {
+                isOnSlope = true;
+                slopeNormal = hit.normal;
+            }
+        }
     }
 
     private void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.red;
+        Gizmos.color = Color.white;
         Gizmos.DrawRay(transform.position, Vector3.down * downRayDistance);
     }
 }

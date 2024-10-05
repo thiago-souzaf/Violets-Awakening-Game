@@ -39,8 +39,9 @@ public class Walking : State
         base.FixedUpdate();
 
         // Create movement vector
-        Vector3 walkVector = new Vector3(controller.movementVector.x, 0, controller.movementVector.y);
+        Vector3 walkVector = new(controller.movementVector.x, 0, controller.movementVector.y);
         walkVector = controller.GetCameraRotation() * walkVector;
+        walkVector = Vector3.ProjectOnPlane(walkVector, controller.slopeNormal);
         walkVector *= controller.MovementSpeed;
 
         // Apply input to character

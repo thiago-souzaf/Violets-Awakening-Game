@@ -6,7 +6,8 @@ public class PlayerController : MonoBehaviour
     public float MovementSpeed = 10f;
     public float JumpPower = 10;
     public float JumpMovementFactor = 1f;
-    public LayerMask platformsLayer;
+    [Tooltip("Distance of the raycast to detect the ground")]
+    public float downRayDistance = 0.0f;
 
     // StateMachine
     public StateMachine stateMachine;
@@ -40,10 +41,6 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (GameManager.Instance.IsGameOver && stateMachine.CurrentStateName != deadState.name)
-        {
-            stateMachine.ChangeState(deadState);
-        }
 
         // Read Input
         bool isUp = Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow);
@@ -101,20 +98,13 @@ public class PlayerController : MonoBehaviour
 
     public bool DetectGround()
     {
-        Vector3 origin = transform.position;
-        Bounds bounds = col.bounds;
+        return Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, downRayDistance, GameManager.Instance.groundLayer);
 
-        float radius = bounds.size.x * 0.25f;
-
-        return Physics.CheckSphere(origin, radius, platformsLayer);
     }
 
     private void OnDrawGizmosSelected()
     {
-        Vector3 origin = transform.position;
-        Bounds bounds = col.bounds;
-
-        float radius = bounds.size.x * 0.25f;
-        Gizmos.DrawSphere(origin , radius);
+        Gizmos.color = Color.red;
+        Gizmos.DrawRay(transform.position, Vector3.down * downRayDistance);
     }
 }

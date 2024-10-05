@@ -3,11 +3,16 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     // Public fields
-    public float MovementSpeed = 10f;
+    [Header("Jump")]
     public float JumpPower = 10;
     public float JumpMovementFactor = 1f;
     [Tooltip("Distance of the raycast to detect the ground")]
     public float downRayDistance = 0.0f;
+
+    [Header("Movement")]
+    public float MovementSpeed = 30f;
+    public float MaxSpeed = 6f;
+
 
     // StateMachine
     public StateMachine stateMachine;
@@ -60,7 +65,7 @@ public class PlayerController : MonoBehaviour
         movementVector = new(inputX, inputY);
 
         float speed = rb.velocity.magnitude;
-        float speedRate = speed / MovementSpeed;
+        float speedRate = speed / MaxSpeed;
         anim.SetFloat("fVelocity", speedRate);
 
         stateMachine.Update();
@@ -70,11 +75,16 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        // State Machine
         stateMachine.FixedUpdate();
 
         // Apply gravity
         Vector3 gravityForce = Physics.gravity * (isOnSlope ? 0.25f : 1f);
         rb.AddForce(gravityForce, ForceMode.Acceleration);
+
+        // Limit speed
+        LimitSpeed();
+
     }
 
     private void LateUpdate()
@@ -128,5 +138,15 @@ public class PlayerController : MonoBehaviour
     {
         Gizmos.color = Color.white;
         Gizmos.DrawRay(transform.position, Vector3.down * downRayDistance);
+    }
+
+    private void LimitSpeed()
+    {
+        Vector3 flatVelocity = new(rb.velocity.x, 0, rb.velocity.z);
+        if (flatVelocity.magnitude > MaxSpeed)
+        {
+            Vector3 limitedVelocity = flatVelocity.normalized * MaxSpeed;
+            rb.velocity = new(limitedVelocity.x, rb.velocity.y, limitedVelocity.z);
+        }
     }
 }

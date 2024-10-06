@@ -794,74 +794,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5714675907274793153, guid: 3a4e59267143f9447abb6214cbc7240c,
-        type: 3}
-      propertyPath: m_Material
-      value: 
-      objectReference: {fileID: 13400000, guid: 9428b281a68ec45409bbc13e2f59d056,
-        type: 2}
-    - target: {fileID: 6232721026141735849, guid: 3a4e59267143f9447abb6214cbc7240c,
-        type: 3}
-      propertyPath: m_Drag
-      value: 0.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 6232721026141735849, guid: 3a4e59267143f9447abb6214cbc7240c,
-        type: 3}
-      propertyPath: m_UseGravity
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7859674227297321077, guid: 3a4e59267143f9447abb6214cbc7240c,
-        type: 3}
-      propertyPath: MaxSpeed
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 7859674227297321077, guid: 3a4e59267143f9447abb6214cbc7240c,
-        type: 3}
-      propertyPath: JumpPower
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 7859674227297321077, guid: 3a4e59267143f9447abb6214cbc7240c,
-        type: 3}
-      propertyPath: rayDistance
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7859674227297321077, guid: 3a4e59267143f9447abb6214cbc7240c,
-        type: 3}
-      propertyPath: MovementSpeed
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 7859674227297321077, guid: 3a4e59267143f9447abb6214cbc7240c,
-        type: 3}
-      propertyPath: downRayDistance
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7859674227297321077, guid: 3a4e59267143f9447abb6214cbc7240c,
-        type: 3}
-      propertyPath: platformsLayer.m_Bits
-      value: 64
-      objectReference: {fileID: 0}
-    - target: {fileID: 7917050381274323313, guid: 3a4e59267143f9447abb6214cbc7240c,
-        type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: 6928543c9df5df34a8bd4455c253e6c5, type: 2}
     - target: {fileID: 8318168119140144784, guid: 3a4e59267143f9447abb6214cbc7240c,
         type: 3}
       propertyPath: m_Name
       value: Character
       objectReference: {fileID: 0}
-    - target: {fileID: 8750850146350336250, guid: 3a4e59267143f9447abb6214cbc7240c,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0.025034066
-      objectReference: {fileID: 0}
-    - target: {fileID: 8750850146350336250, guid: 3a4e59267143f9447abb6214cbc7240c,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0.0012542872
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 4067988504892685371, guid: 3a4e59267143f9447abb6214cbc7240c, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

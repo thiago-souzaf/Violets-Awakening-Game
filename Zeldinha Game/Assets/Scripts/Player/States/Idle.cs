@@ -20,6 +20,12 @@ public class Idle : State
     {
         base.Update();
 
+        // Switch to attack
+        if (controller.AttemptToAttack())
+        {
+            return;
+        }
+
         // Switch to jumping
         if (controller.hasJumpInput)
         {

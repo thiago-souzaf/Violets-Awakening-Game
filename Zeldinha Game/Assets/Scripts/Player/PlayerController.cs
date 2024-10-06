@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -20,6 +21,7 @@ public class PlayerController : MonoBehaviour
     public Walking walkingState;
     public Jumping jumpingState;
     public Dead deadState;
+    public Attack attackState;
 
     // Internal fields
     [HideInInspector] public Vector2 movementVector;
@@ -31,6 +33,12 @@ public class PlayerController : MonoBehaviour
     // Slope
     private bool isOnSlope;
     [HideInInspector] public Vector3 slopeNormal;
+
+    // Attack
+    [Header("Attack")]
+    public int attackStages = 3;
+    public List<float> attackStageDurations;
+    public List<float> attackStageMaxIntervals;
 
     private void Awake()
     {
@@ -45,6 +53,7 @@ public class PlayerController : MonoBehaviour
         walkingState = new(this);
         jumpingState = new(this);
         deadState = new(this);
+        attackState = new(this);
         stateMachine.ChangeState(idleState);
     }
 
@@ -71,6 +80,9 @@ public class PlayerController : MonoBehaviour
         stateMachine.Update();
 
         DetectSlope();
+
+        // Process attack
+        
     }
 
     private void FixedUpdate()
@@ -115,6 +127,23 @@ public class PlayerController : MonoBehaviour
         rb.MoveRotation(smoothRotation);
     }
 
+    public bool AttemptToAttack()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            bool isAttacking = stateMachine.CurrentStateName == attackState.name;
+            bool canAttack = !isAttacking || attackState.CanSwitchStages();
+
+            if (canAttack)
+            {
+                int attackStage = isAttacking ? (attackState.stage + 1) : 1;
+                attackState.stage = attackStage;
+                stateMachine.ChangeState(attackState);
+                return true;
+            }
+        }
+        return false;
+    }
     public bool DetectGround()
     {
         return Physics.Raycast(transform.position, Vector3.down, downRayDistance, GameManager.Instance.groundLayer);

@@ -38,6 +38,13 @@ public class Walking : State
             controller.stateMachine.ChangeState(controller.idleState);
             return;
         }
+
+        // Switch to defending
+        if (controller.hasDefenseInput)
+        {
+            controller.stateMachine.ChangeState(controller.defendState);
+            return;
+        }
     }
 
     public override void FixedUpdate()

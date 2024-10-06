@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour
     public Jumping jumpingState;
     public Dead deadState;
     public Attack attackState;
+    public Defend defendState;
 
     // Internal fields
     [HideInInspector] public Vector2 movementVector;
@@ -39,6 +40,16 @@ public class PlayerController : MonoBehaviour
     public int attackStages = 3;
     public List<float> attackStageDurations;
     public List<float> attackStageMaxIntervals;
+    public List<float> attackStageImpulses;
+    public GameObject swordHitBox;
+    [SerializeField] private float swordKnockbackImpulse;
+
+    // Defend
+    [Header("Defend")]
+    public bool hasDefenseInput;
+    public GameObject shieldHitbox;
+    [SerializeField] private float shieldKnockbackImpulse;
+
 
     private void Awake()
     {
@@ -54,7 +65,12 @@ public class PlayerController : MonoBehaviour
         jumpingState = new(this);
         deadState = new(this);
         attackState = new(this);
+        defendState = new(this);
         stateMachine.ChangeState(idleState);
+
+        swordHitBox.SetActive(false);
+        shieldHitbox.SetActive(false);
+
     }
 
     private void Update()
@@ -67,6 +83,8 @@ public class PlayerController : MonoBehaviour
         bool isRight = Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow);
 
         hasJumpInput = Input.GetKey(KeyCode.Space);
+
+        hasDefenseInput = Input.GetMouseButton(1);
 
         // Create movement vector
         float inputX = isRight ? 1f : isLeft ? -1f : 0f;
@@ -111,7 +129,7 @@ public class PlayerController : MonoBehaviour
         return Quaternion.Euler(0, eulerY, 0);
     }
 
-    public void RotateBodyToFaceInput()
+    public void RotateBodyToFaceInput(float alpha = 0.3f)
     {
         if (movementVector.IsZero()) return;
 
@@ -121,7 +139,7 @@ public class PlayerController : MonoBehaviour
         Quaternion q1 = Quaternion.LookRotation(inputVector);
         Quaternion q2 = Quaternion.Euler(0, cam.transform.eulerAngles.y, 0);
         Quaternion toRotation = q1 * q2;
-        Quaternion smoothRotation = Quaternion.Lerp(transform.rotation, toRotation, 0.3f);
+        Quaternion smoothRotation = Quaternion.Lerp(transform.rotation, toRotation, alpha);
 
         // Apply rotation
         rb.MoveRotation(smoothRotation);
@@ -144,6 +162,37 @@ public class PlayerController : MonoBehaviour
         }
         return false;
     }
+
+    public void OnSwordCollisionEnter (Collider other)
+    {
+        GameObject other_go = other.gameObject;
+        bool isTarget = other_go.layer == LayerMask.NameToLayer("Target");
+
+        if (isTarget && other_go.TryGetComponent(out Rigidbody other_rb))
+        {
+            Vector3 positionDiff = other_go.transform.position - transform.position;
+            Vector3 impulseVector = new(positionDiff.x, 0.0f, positionDiff.z);
+            impulseVector = impulseVector.normalized * swordKnockbackImpulse;
+            other_rb.AddForce(impulseVector, ForceMode.Impulse);
+        }
+    }
+
+    public void OnShieldCollisionEnter(Collider other)
+    {
+        GameObject other_go = other.gameObject;
+        bool isTarget = true;
+
+        if (isTarget && other_go.TryGetComponent(out Rigidbody other_rb))
+        {
+            Vector3 positionDiff = other_go.transform.position - transform.position;
+            Vector3 impulseVector = new(positionDiff.x, 0.0f, positionDiff.z);
+            impulseVector = impulseVector.normalized * shieldKnockbackImpulse;
+            other_rb.AddForce(impulseVector, ForceMode.Impulse);
+
+            Debug.Log("Collided with " + other_go.name);
+        }
+    }
+
     public bool DetectGround()
     {
         return Physics.Raycast(transform.position, Vector3.down, downRayDistance, GameManager.Instance.groundLayer);

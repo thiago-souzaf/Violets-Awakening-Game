@@ -13,13 +13,23 @@ public class Attack : State
     public override void Enter()
     {
         base.Enter();
+        controller.RotateBodyToFaceInput(1);
         controller.anim.SetTrigger("tAttack" + stage);
         stateTime = 0;
+
+        // Apply impulse
+        float impulseForce = controller.attackStageImpulses[stage - 1];
+        Vector3 impulseVector = controller.rb.rotation * Vector3.forward * impulseForce;
+        controller.rb.AddForce(impulseVector, ForceMode.Impulse);
+
+        controller.swordHitBox.SetActive(true);
     }
 
     public override void Exit()
     {
         base.Exit();
+        controller.swordHitBox.SetActive(false);
+
     }
 
     public override void Update()

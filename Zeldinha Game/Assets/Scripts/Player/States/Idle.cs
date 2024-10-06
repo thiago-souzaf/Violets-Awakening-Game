@@ -38,5 +38,12 @@ public class Idle : State
             controller.stateMachine.ChangeState(controller.walkingState);
             return;
         }
+
+        // Switch to defending
+        if (controller.hasDefenseInput)
+        {
+            controller.stateMachine.ChangeState(controller.defendState);
+            return;
+        }
     }
 }

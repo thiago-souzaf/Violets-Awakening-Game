@@ -1,3 +1,4 @@
+using UnityEngine;
 public class Idle : State
 {
     private PlayerController controller;
@@ -45,5 +46,7 @@ public class Idle : State
             controller.stateMachine.ChangeState(controller.defendState);
             return;
         }
+
+        controller.rb.velocity = Vector3.Lerp(controller.rb.velocity, new(0, controller.rb.velocity.y, 0), 0.1f);
     }
 }

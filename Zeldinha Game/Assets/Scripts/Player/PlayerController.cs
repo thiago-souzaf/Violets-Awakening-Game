@@ -46,7 +46,7 @@ public class PlayerController : MonoBehaviour
 
     // Defend
     [Header("Defend")]
-    public bool hasDefenseInput;
+    [HideInInspector] public bool hasDefenseInput;
     public GameObject shieldHitbox;
     [SerializeField] private float shieldKnockbackImpulse;
 
@@ -109,12 +109,11 @@ public class PlayerController : MonoBehaviour
         stateMachine.FixedUpdate();
 
         // Apply gravity
-        Vector3 gravityForce = Physics.gravity * (isOnSlope ? 0.25f : 1f);
+        Vector3 gravityForce = Physics.gravity * (isOnSlope ? 0f : 1f);
         rb.AddForce(gravityForce, ForceMode.Acceleration);
 
         // Limit speed
         LimitSpeed();
-
     }
 
     private void LateUpdate()
@@ -202,12 +201,22 @@ public class PlayerController : MonoBehaviour
     {
         isOnSlope = false;
         slopeNormal = Vector3.up;
-        if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, downRayDistance))
+        if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, downRayDistance))
         {
             if (Vector3.Dot(hit.normal, Vector3.up) < 0.99f)
             {
-                isOnSlope = true;
                 slopeNormal = hit.normal;
+                isOnSlope = true;
+                return;
+            }
+        }
+
+        if (Physics.Raycast(transform.position, Vector3.down, out hit, downRayDistance))
+        {
+            if (Vector3.Dot(hit.normal, Vector3.up) < 0.99f)
+            {
+                slopeNormal = hit.normal;
+                isOnSlope = true;
             }
         }
     }
@@ -215,16 +224,26 @@ public class PlayerController : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.white;
-        Gizmos.DrawRay(transform.position, Vector3.down * downRayDistance);
+        Gizmos.DrawRay(transform.position, transform.forward * downRayDistance);
     }
 
     private void LimitSpeed()
     {
-        Vector3 flatVelocity = new(rb.velocity.x, 0, rb.velocity.z);
-        if (flatVelocity.magnitude > MaxSpeed)
+        if (isOnSlope)
         {
-            Vector3 limitedVelocity = flatVelocity.normalized * MaxSpeed;
-            rb.velocity = new(limitedVelocity.x, rb.velocity.y, limitedVelocity.z);
+            if (rb.velocity.magnitude > MaxSpeed)
+            {
+                rb.velocity = rb.velocity.normalized * MaxSpeed;
+            }
+        }
+        else
+        {
+            Vector3 flatVelocity = new(rb.velocity.x, 0, rb.velocity.z);
+            if (flatVelocity.magnitude > MaxSpeed)
+            {
+                Vector3 limitedVelocity = flatVelocity.normalized * MaxSpeed;
+                rb.velocity = new(limitedVelocity.x, rb.velocity.y, limitedVelocity.z);
+            }
         }
     }
 }

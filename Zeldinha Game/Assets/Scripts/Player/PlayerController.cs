@@ -161,7 +161,7 @@ public class PlayerController : MonoBehaviour
         }
         return false;
     }
-
+    
     public void OnSwordCollisionEnter (Collider other)
     {
         GameObject other_go = other.gameObject;

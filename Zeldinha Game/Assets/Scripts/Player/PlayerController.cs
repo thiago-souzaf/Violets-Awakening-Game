@@ -29,6 +29,7 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public Rigidbody rb;
     [HideInInspector] public Animator anim;
     [HideInInspector] public Collider col;
+    [HideInInspector] public Life lifeScript;
     [HideInInspector] public bool hasJumpInput;
 
     // Slope
@@ -56,6 +57,10 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
         col = GetComponent<Collider>();
+
+
+        lifeScript = GetComponent<Life>();
+        lifeScript.OnDamage += OnDamage;
     }
     private void Start()
     {
@@ -98,9 +103,6 @@ public class PlayerController : MonoBehaviour
         stateMachine.Update();
 
         DetectSlope();
-
-        // Process attack
-        
     }
 
     private void FixedUpdate()
@@ -219,6 +221,11 @@ public class PlayerController : MonoBehaviour
                 isOnSlope = true;
             }
         }
+    }
+
+    private void OnDamage(object sender, DamageEventArgs e)
+    {
+        Debug.Log("Player has been damaged by " + e.attacker.name + " with " + e.damage + " damage");
     }
 
     private void OnDrawGizmosSelected()

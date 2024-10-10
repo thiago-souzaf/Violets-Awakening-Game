@@ -64,14 +64,16 @@ public class CreatureAttack : State
 
     private void PerformAttack()
     {
-        if (Physics.SphereCast(m_controller.transform.position, m_controller.attackRadius, m_controller.transform.forward, out RaycastHit hitInfo, m_controller.attackSphereRadius))
+        Vector3 origin = m_controller.transform.position + m_controller.transform.forward * m_controller.attackRadius;
+        int playerLayer = LayerMask.GetMask("Player");
+        Collider[] colliders = Physics.OverlapSphere(origin, m_controller.attackSphereRadius, playerLayer);
+
+        foreach (Collider collider in colliders)
         {
-            GameObject hitObject = hitInfo.collider.gameObject;
-            if (hitObject.CompareTag("Player"))
+            Debug.Log("Hit object: " + collider.gameObject.name);
+            if (collider.TryGetComponent(out Life lifeScript))
             {
-                // Perform Attack!
-                // TODO: 
-                // controller.attackDamage (int)
+                lifeScript.TakeDamage(m_controller.gameObject, m_controller.attackDamage);
             }
         }
     }

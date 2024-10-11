@@ -5,7 +5,8 @@ public class MeleeCreatureController : MonoBehaviour
 {
     [HideInInspector] public MeleeCreatureHelper helper;
     [HideInInspector] public NavMeshAgent agent;
-
+    [HideInInspector] public Life lifeScript;
+    [HideInInspector] public Animator animator;
 
     // Debug fields
     [Header("Debug")]
@@ -45,6 +46,8 @@ public class MeleeCreatureController : MonoBehaviour
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
+        lifeScript = GetComponent<Life>();
+        animator = GetComponent<Animator>();
 
         helper = new MeleeCreatureHelper(this);
 
@@ -61,12 +64,17 @@ public class MeleeCreatureController : MonoBehaviour
         stateMachine = new StateMachine();
 
         stateMachine.ChangeState(idleState);
+
+        lifeScript.OnDamage += OnDamage;
     }
 
     private void Update()
     {
         stateMachine.Update();
         _currentStateName = stateMachine.CurrentStateName;
+
+        float speedRate = agent.velocity.magnitude / agent.speed;
+        animator.SetFloat("fSpeed", speedRate);
     }
 
     private void FixedUpdate()
@@ -88,5 +96,12 @@ public class MeleeCreatureController : MonoBehaviour
 
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position + transform.forward * attackRadius, attackSphereRadius);
+    }
+
+    private void OnDamage(object sender, DamageEventArgs e)
+    {
+        Debug.Log("Creature has been damaged by " + e.attacker.name + " with " + e.damage + " damage");
+
+        stateMachine.ChangeState(hurtState);
     }
 }

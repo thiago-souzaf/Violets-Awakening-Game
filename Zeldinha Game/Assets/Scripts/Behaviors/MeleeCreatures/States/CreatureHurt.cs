@@ -1,7 +1,11 @@
+using UnityEngine;
+
 public class CreatureHurt : State
 {
     private MeleeCreatureController m_controller;
     private MeleeCreatureHelper m_helper;
+
+    private float m_timePassed;
     public CreatureHurt(MeleeCreatureController controller) : base("Hurt")
     {
         m_controller = controller;
@@ -11,11 +15,27 @@ public class CreatureHurt : State
     public override void Enter()
     {
         base.Enter();
+
+        if (m_controller.lifeScript.IsDead())
+        {
+            m_controller.stateMachine.ChangeState(m_controller.deadState);
+            return;
+        }
+
+        m_timePassed = 0;
+
+        // Pause damage
+        m_controller.lifeScript.isVunerable = false;
+
+        // Set animation trigger
+        m_controller.animator.SetTrigger("tHurt");
     }
 
     public override void Exit()
     {
         base.Exit();
+
+        m_controller.lifeScript.isVunerable = true;
     }
 
     public override void FixedUpdate()
@@ -31,5 +51,13 @@ public class CreatureHurt : State
     public override void Update()
     {
         base.Update();
+
+        m_timePassed += Time.deltaTime;
+
+        if (m_timePassed >= m_controller.hurtDuration)
+        {
+            m_controller.stateMachine.ChangeState(m_controller.idleState);
+            return;
+        }
     }
 }

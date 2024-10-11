@@ -42,8 +42,10 @@ public class PlayerController : MonoBehaviour
     public List<float> attackStageDurations;
     public List<float> attackStageMaxIntervals;
     public List<float> attackStageImpulses;
+    public List<int> attackDamagePerStage;
     public GameObject swordHitBox;
     [SerializeField] private float swordKnockbackImpulse;
+
 
     // Defend
     [Header("Defend")]
@@ -169,12 +171,21 @@ public class PlayerController : MonoBehaviour
         GameObject other_go = other.gameObject;
         bool isTarget = other_go.layer == LayerMask.NameToLayer("Target");
 
-        if (isTarget && other_go.TryGetComponent(out Rigidbody other_rb))
+        // Knockback
+        if (!isTarget) return;
+
+        if (other_go.TryGetComponent(out Rigidbody other_rb))
         {
             Vector3 positionDiff = other_go.transform.position - transform.position;
             Vector3 impulseVector = new(positionDiff.x, 0.0f, positionDiff.z);
             impulseVector = impulseVector.normalized * swordKnockbackImpulse;
             other_rb.AddForce(impulseVector, ForceMode.Impulse);
+        }
+
+        // Damage
+        if (other_go.TryGetComponent(out Life other_life))
+        {
+            other_life.TakeDamage(gameObject, attackDamagePerStage[attackState.stage - 1]);
         }
     }
 

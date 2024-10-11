@@ -22,6 +22,9 @@ public class CreatureAttack : State
 
         attackCoroutine = ScheduleAttack();
         m_controller.StartCoroutine(attackCoroutine);
+
+        // Set animation trigger
+        m_controller.animator.SetTrigger("tAttack");
     }
 
     public override void Exit()

@@ -10,7 +10,12 @@ public class CreatureDead : State
 
     public override void Enter()
     {
+        // Pause damage
+        m_controller.lifeScript.isVunerable = false;
         base.Enter();
+
+        // Set animation trigger
+        m_controller.animator.SetTrigger("tDead");
     }
 
     public override void Exit()

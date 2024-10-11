@@ -29,8 +29,8 @@ public class MeleeCreatureHelper
 		}
 
 		// Check for obstacles
-		int defaultLayer = LayerMask.GetMask("Default");
-		if (Physics.Raycast(m_controller.transform.position, direction.normalized, out RaycastHit hit,  m_controller.searchRadius, defaultLayer))
+		int searchLayer = LayerMask.GetMask("Player", "Default");
+		if (Physics.Raycast(m_controller.transform.position, direction.normalized, out RaycastHit hit,  m_controller.searchRadius, searchLayer))
 		{
             if (hit.transform.gameObject != player)
 			{

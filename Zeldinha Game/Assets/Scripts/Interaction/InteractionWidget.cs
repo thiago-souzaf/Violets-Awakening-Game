@@ -27,6 +27,9 @@ public class InteractionWidget : MonoBehaviour
         m_inputText.text = m_inputString;
         m_actionText.text = m_actionString;
         transform.rotation = Camera.main.transform.rotation;
+
+
+        m_canvasGroup.alpha = 0;
     }
 
     public void SetActionText(string text)

@@ -10,6 +10,8 @@ public class Life : MonoBehaviour
 
     public event EventHandler<DamageEventArgs> OnDamage;
 
+    [SerializeField] private GameObject m_healEffect;  
+
     private void Start()
     {
         m_currentHealth = maxHealth;
@@ -31,5 +33,14 @@ public class Life : MonoBehaviour
     public bool IsDead()
     {
         return m_currentHealth <= 0;
+    }
+
+    public void Heal()
+    {
+        m_currentHealth = maxHealth;
+        
+        var effect = Instantiate(m_healEffect, transform.position, m_healEffect.transform.rotation);
+        effect.transform.SetParent(transform);
+        Destroy(effect, 5.0f);
     }
 }

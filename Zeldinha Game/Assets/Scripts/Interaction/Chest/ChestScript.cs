@@ -18,7 +18,7 @@ public class ChestScript : MonoBehaviour
     private void Start()
     {
         interaction.OnInteract += OpenChest;
-        
+        interaction.SetActionText("Open Chest");
     }
 
     private void OpenChest(object sender, InteractionEventArgs args)
@@ -29,5 +29,19 @@ public class ChestScript : MonoBehaviour
         objectInside.transform.SetParent(itemHolder);
         objectInside.transform.localScale = so_itemInside.objectScale * Vector3.one;
         Debug.Log("Player opened a chest containing a " + so_itemInside.displayName);
+
+        ItemType itemType = so_itemInside.itemType;
+        if (itemType == ItemType.Key)
+        {
+            GameManager.Instance.keys++;
+        }
+        else if (itemType == ItemType.BossKey)
+        {
+            GameManager.Instance.hasBossKey = true;
+        }
+        else if (itemType == ItemType.HealthPotion)
+        {
+            GameManager.Instance.player.GetComponent<Life>().Heal();
+        }
     }
 }

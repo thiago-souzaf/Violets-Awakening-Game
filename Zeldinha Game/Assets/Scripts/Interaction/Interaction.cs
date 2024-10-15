@@ -17,11 +17,14 @@ public class Interaction : MonoBehaviour
 
     public event EventHandler<InteractionEventArgs> OnInteract;
 
-    private void Start()
+    private void Awake()
     {
         go_widget = Instantiate(widgetPrefab, transform.position + widgetOffset, Quaternion.identity);
         go_widget.transform.SetParent(this.transform);
         m_interactionWidget = go_widget.GetComponent<InteractionWidget>();
+    }
+    private void Start()
+    {
         m_interactionWidget.fadeDuration = fadeDuration;
         isAvailable = true;
 
@@ -54,5 +57,10 @@ public class Interaction : MonoBehaviour
     {
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position, interactionRadius);
+    }
+
+    public void SetActionText(string text)
+    {
+        m_interactionWidget.SetActionText(text);
     }
 }

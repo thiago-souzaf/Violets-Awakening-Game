@@ -16,3 +16,4 @@ MonoBehaviour:
   objectPrefab: {fileID: 893291583936826488, guid: d1590edc38064874ab6c0334c3719668,
     type: 3}
   displayName: Boss Key
+  objectScale: 1.5

@@ -28,12 +28,7 @@ public class Interaction : MonoBehaviour
     }
     private void OnEnable()
     {
-        GameManager.Instance.interactableObjects.Add(this);
-    }
-
-    private void OnDisable()
-    {
-        GameManager.Instance.interactableObjects.Remove(this);
+        GameManager.Instance.interactableObjects?.Add(this);
     }
 
     public void SetActive(bool active)
@@ -53,7 +48,6 @@ public class Interaction : MonoBehaviour
     public void Interact()
     {
         OnInteract?.Invoke(this, new InteractionEventArgs());
-        Debug.Log("Interacted with " + gameObject.name);
     }
 
     private void OnDrawGizmos()

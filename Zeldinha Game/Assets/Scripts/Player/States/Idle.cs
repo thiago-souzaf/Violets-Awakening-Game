@@ -1,52 +1,55 @@
 using UnityEngine;
-public class Idle : State
+namespace Player.States
 {
-    private PlayerController controller;
-    public Idle(PlayerController controller) : base("Idle")
+    public class Idle : State
     {
-        this.controller = controller;
-    }
-
-    public override void Enter()
-    {
-        base.Enter();
-    }
-
-    public override void Exit()
-    {
-        base.Exit();
-    }
-
-    public override void Update()
-    {
-        base.Update();
-
-        // Switch to attack
-        if (controller.AttemptToAttack())
+        private PlayerController controller;
+        public Idle(PlayerController controller) : base("Idle")
         {
-            return;
+            this.controller = controller;
         }
 
-        // Switch to jumping
-        if (controller.hasJumpInput)
+        public override void Enter()
         {
-            controller.stateMachine.ChangeState(controller.jumpingState);
+            base.Enter();
         }
 
-        // Switch to walking
-        if (!controller.movementVector.IsZero())
+        public override void Exit()
         {
-            controller.stateMachine.ChangeState(controller.walkingState);
-            return;
+            base.Exit();
         }
 
-        // Switch to defending
-        if (controller.hasDefenseInput)
+        public override void Update()
         {
-            controller.stateMachine.ChangeState(controller.defendState);
-            return;
-        }
+            base.Update();
 
-        controller.rb.velocity = Vector3.Lerp(controller.rb.velocity, new(0, controller.rb.velocity.y, 0), 0.1f);
+            // Switch to attack
+            if (controller.AttemptToAttack())
+            {
+                return;
+            }
+
+            // Switch to jumping
+            if (controller.hasJumpInput)
+            {
+                controller.stateMachine.ChangeState(controller.jumpingState);
+            }
+
+            // Switch to walking
+            if (!controller.movementVector.IsZero())
+            {
+                controller.stateMachine.ChangeState(controller.walkingState);
+                return;
+            }
+
+            // Switch to defending
+            if (controller.hasDefenseInput)
+            {
+                controller.stateMachine.ChangeState(controller.defendState);
+                return;
+            }
+
+            controller.rb.velocity = Vector3.Lerp(controller.rb.velocity, new(0, controller.rb.velocity.y, 0), 0.1f);
+        }
     }
 }

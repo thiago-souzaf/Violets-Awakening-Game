@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-
+using Player.States;
 public class PlayerController : MonoBehaviour
 {
     // Public fields

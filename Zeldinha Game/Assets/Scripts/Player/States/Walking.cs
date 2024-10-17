@@ -1,66 +1,68 @@
 using UnityEngine;
-
-public class Walking : State
+namespace Player.States
 {
-    private PlayerController controller;
-    public Walking(PlayerController controller) : base("Walking")
+    public class Walking : State
     {
-        this.controller = controller;
-    }
-
-    public override void Enter()
-    {
-        base.Enter();
-    }
-
-    public override void Exit()
-    {
-        base.Exit();
-    }
-
-    public override void Update()
-    {
-        base.Update();
-
-        // Switch to attack
-        if (controller.AttemptToAttack())
+        private PlayerController controller;
+        public Walking(PlayerController controller) : base("Walking")
         {
-            return;
+            this.controller = controller;
         }
 
-        if (controller.hasJumpInput)
+        public override void Enter()
         {
-            controller.stateMachine.ChangeState(controller.jumpingState);
+            base.Enter();
         }
 
-        if (controller.movementVector.IsZero())
+        public override void Exit()
         {
-            controller.stateMachine.ChangeState(controller.idleState);
-            return;
+            base.Exit();
         }
 
-        // Switch to defending
-        if (controller.hasDefenseInput)
+        public override void Update()
         {
-            controller.stateMachine.ChangeState(controller.defendState);
-            return;
+            base.Update();
+
+            // Switch to attack
+            if (controller.AttemptToAttack())
+            {
+                return;
+            }
+
+            if (controller.hasJumpInput)
+            {
+                controller.stateMachine.ChangeState(controller.jumpingState);
+            }
+
+            if (controller.movementVector.IsZero())
+            {
+                controller.stateMachine.ChangeState(controller.idleState);
+                return;
+            }
+
+            // Switch to defending
+            if (controller.hasDefenseInput)
+            {
+                controller.stateMachine.ChangeState(controller.defendState);
+                return;
+            }
         }
+
+        public override void FixedUpdate()
+        {
+            base.FixedUpdate();
+
+            // Create movement vector
+            Vector3 walkVector = new(controller.movementVector.x, 0, controller.movementVector.y);
+            walkVector = controller.GetCameraRotation() * walkVector;
+            walkVector = Vector3.ProjectOnPlane(walkVector, controller.slopeNormal);
+            walkVector *= controller.MovementSpeed;
+
+            // Apply input to character
+            controller.rb.AddForce(walkVector);
+
+            controller.RotateBodyToFaceInput();
+        }
+
     }
-
-    public override void FixedUpdate()
-    {
-        base.FixedUpdate();
-
-        // Create movement vector
-        Vector3 walkVector = new(controller.movementVector.x, 0, controller.movementVector.y);
-        walkVector = controller.GetCameraRotation() * walkVector;
-        walkVector = Vector3.ProjectOnPlane(walkVector, controller.slopeNormal);
-        walkVector *= controller.MovementSpeed;
-
-        // Apply input to character
-        controller.rb.AddForce(walkVector);
-
-        controller.RotateBodyToFaceInput();
-    }
-
 }

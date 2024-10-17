@@ -1,10 +1,10 @@
 using UnityEngine;
 using UnityEngine.AI;
-using Behaviors.MeleeCreatures.States;
-public class MeleeCreatureController : MonoBehaviour
+using Behaviors.Boss.States;
+public class BossController : MonoBehaviour
 {
     // Components
-    [HideInInspector] public MeleeCreatureHelper helper;
+    [HideInInspector] public BossHelper helper;
     [HideInInspector] public NavMeshAgent agent;
     [HideInInspector] public Life lifeScript;
     [HideInInspector] public Animator animator;
@@ -17,10 +17,6 @@ public class MeleeCreatureController : MonoBehaviour
     // State Machine
     public StateMachine stateMachine;
     public Idle idleState;
-    public Follow followState;
-    public Attack attackState;
-    public Hurt hurtState;
-    public Dead deadState;
 
     [Header("General")]
     public float searchRadius = 5f;
@@ -51,7 +47,7 @@ public class MeleeCreatureController : MonoBehaviour
         lifeScript = GetComponent<Life>();
         animator = GetComponent<Animator>();
 
-        helper = new MeleeCreatureHelper(this);
+        helper = new BossHelper(this);
         thisCollider = GetComponent<Collider>();
 
     }
@@ -59,10 +55,6 @@ public class MeleeCreatureController : MonoBehaviour
     private void Start()
     {
         idleState = new Idle(this);
-        followState = new Follow(this);
-        attackState = new Attack(this);
-        hurtState = new Hurt(this);
-        deadState = new Dead(this);
 
         stateMachine = new StateMachine();
 
@@ -105,6 +97,6 @@ public class MeleeCreatureController : MonoBehaviour
     {
         Debug.Log("Creature has been damaged by " + e.attacker.name + " with " + e.damage + " damage");
 
-        stateMachine.ChangeState(hurtState);
+        //stateMachine.ChangeState(hurtState);
     }
 }

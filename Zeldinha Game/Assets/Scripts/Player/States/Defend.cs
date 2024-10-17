@@ -1,36 +1,39 @@
-public class Defend : State
+namespace Player.States
 {
-    private PlayerController controller;
-    public Defend(PlayerController controller) : base("Defend")
+    public class Defend : State
     {
-        this.controller = controller;
-    }
-
-    public override void Enter()
-    {
-        base.Enter();
-        controller.anim.SetBool("bDefend", true);
-        controller.shieldHitbox.SetActive(true);
-    }
-
-    public override void Exit()
-    {
-        base.Exit();
-        controller.anim.SetBool("bDefend", false);
-        controller.shieldHitbox.SetActive(false);
-
-    }
-
-    public override void Update()
-    {
-        base.Update();
-
-        if (!controller.hasDefenseInput)
+        private PlayerController controller;
+        public Defend(PlayerController controller) : base("Defend")
         {
-            controller.stateMachine.ChangeState(controller.idleState);
-            return;
+            this.controller = controller;
         }
 
-        controller.RotateBodyToFaceInput(0.5f);
+        public override void Enter()
+        {
+            base.Enter();
+            controller.anim.SetBool("bDefend", true);
+            controller.shieldHitbox.SetActive(true);
+        }
+
+        public override void Exit()
+        {
+            base.Exit();
+            controller.anim.SetBool("bDefend", false);
+            controller.shieldHitbox.SetActive(false);
+
+        }
+
+        public override void Update()
+        {
+            base.Update();
+
+            if (!controller.hasDefenseInput)
+            {
+                controller.stateMachine.ChangeState(controller.idleState);
+                return;
+            }
+
+            controller.RotateBodyToFaceInput(0.5f);
+        }
     }
 }

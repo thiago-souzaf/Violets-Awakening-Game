@@ -8,6 +8,7 @@ public class InteractionWidget : MonoBehaviour
 	[SerializeField] private TextMeshProUGUI m_inputText;
 	[SerializeField] private TextMeshProUGUI m_actionText;
     private CanvasGroup m_canvasGroup;
+    private Transform mainCameraTransform;
 
     // Text
     private string m_inputString = "E";
@@ -22,12 +23,16 @@ public class InteractionWidget : MonoBehaviour
         m_canvasGroup = GetComponent<CanvasGroup>();
     }
 
+    private void Update()
+    {
+        transform.rotation = mainCameraTransform.rotation;
+    }
+
     private void Start()
     {
         m_inputText.text = m_inputString;
         m_actionText.text = m_actionString;
-        transform.rotation = Camera.main.transform.rotation;
-
+        mainCameraTransform = Camera.main.transform;
 
         m_canvasGroup.alpha = 0;
     }

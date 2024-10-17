@@ -3,10 +3,12 @@ using UnityEngine.AI;
 
 public class MeleeCreatureController : MonoBehaviour
 {
+    // Components
     [HideInInspector] public MeleeCreatureHelper helper;
     [HideInInspector] public NavMeshAgent agent;
     [HideInInspector] public Life lifeScript;
     [HideInInspector] public Animator animator;
+    [HideInInspector] public Collider thisCollider;
 
     // Debug fields
     [Header("Debug")]
@@ -50,6 +52,7 @@ public class MeleeCreatureController : MonoBehaviour
         animator = GetComponent<Animator>();
 
         helper = new MeleeCreatureHelper(this);
+        thisCollider = GetComponent<Collider>();
 
     }
 

@@ -16,6 +16,9 @@ public class CreatureDead : State
 
         // Set animation trigger
         m_controller.animator.SetTrigger("tDead");
+
+        // Deactivate Collider
+        m_controller.thisCollider.enabled = false;
     }
 
     public override void Exit()

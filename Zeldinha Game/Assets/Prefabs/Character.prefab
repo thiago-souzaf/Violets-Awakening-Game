@@ -2913,6 +2913,7 @@ GameObject:
   - component: {fileID: 5714675907274793153}
   - component: {fileID: 7917050381274323313}
   - component: {fileID: 3722438977677236101}
+  - component: {fileID: 2012993840671906860}
   m_Layer: 9
   m_Name: Character
   m_TagString: Player
@@ -2977,6 +2978,7 @@ MonoBehaviour:
   - 7
   - 10
   - 15
+  attackDamagePerStage: 010000000100000002000000
   swordHitBox: {fileID: 1968331336501639105}
   swordKnockbackImpulse: 10
   hasDefenseInput: 0
@@ -3066,6 +3068,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 10
+  isVunerable: 1
+  m_healEffect: {fileID: 8013223042721414440, guid: 4b12b127f5aef3f4bbbedd655e2a0e08,
+    type: 3}
+--- !u!114 &2012993840671906860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8318168119140144784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38b8fae519f0f644384720d427219592, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8410729234128542409
 GameObject:
   m_ObjectHideFlags: 0

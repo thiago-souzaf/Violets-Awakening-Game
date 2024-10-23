@@ -14,6 +14,7 @@ namespace Player.States
         {
             base.Enter();
             controller.anim.SetTrigger("tGameOver");
+            GlobalEvents.Instance.GameOver();
         }
 
         public override void Exit()

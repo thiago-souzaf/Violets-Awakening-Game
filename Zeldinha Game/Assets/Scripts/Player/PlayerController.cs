@@ -83,6 +83,8 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
 
+        
+
         // Read Input
         bool isUp = Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow);
         bool isDown = Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow);
@@ -102,6 +104,15 @@ public class PlayerController : MonoBehaviour
         float speedRate = speed / MaxSpeed;
         anim.SetFloat("fVelocity", speedRate);
 
+
+        if (GameManager.Instance.bossBattleHandler.IsInCutscene())
+        {
+            if (stateMachine.CurrentStateName != idleState.name)
+            {
+                stateMachine.ChangeState(idleState);
+            }
+            return;
+        }
         stateMachine.Update();
 
         DetectSlope();
@@ -262,6 +273,15 @@ public class PlayerController : MonoBehaviour
                 Vector3 limitedVelocity = flatVelocity.normalized * MaxSpeed;
                 rb.velocity = new(limitedVelocity.x, rb.velocity.y, limitedVelocity.z);
             }
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("BossRoomSensor"))
+        {
+            GlobalEvents.Instance.BossRoomEnter();
+            Destroy(other.gameObject);
         }
     }
 }

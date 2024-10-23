@@ -12,12 +12,12 @@ public abstract class State
 
     public virtual void Enter()
     {
-        Debug.Log($"Entrou no estado: {name}");
+        //Debug.Log($"Entrou no estado: {name}");
     }
 
     public virtual void Exit()
     {
-        Debug.Log($"Saiu do estado: {name}");
+        //Debug.Log($"Saiu do estado: {name}");
     }
 
     public virtual void Update() { }

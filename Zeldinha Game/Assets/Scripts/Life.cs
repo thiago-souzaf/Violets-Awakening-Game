@@ -4,7 +4,7 @@ using UnityEngine;
 public class Life : MonoBehaviour
 {
     public int maxHealth;
-    private int m_currentHealth;
+    [SerializeField] private int m_currentHealth;
 
     public bool isVunerable = true;
 
@@ -42,5 +42,10 @@ public class Life : MonoBehaviour
         var effect = Instantiate(m_healEffect, transform.position, m_healEffect.transform.rotation);
         effect.transform.SetParent(transform);
         Destroy(effect, 5.0f);
+    }
+
+    public float GetHealthPercentage()
+    {
+        return (float)m_currentHealth / maxHealth;
     }
 }

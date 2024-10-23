@@ -13,6 +13,10 @@ namespace Behaviors.Boss.States
         public override void Enter()
         {
             base.Enter();
+            m_controller.animator.SetTrigger("tDead");
+            m_controller.thisCollider.enabled = false;
+            GlobalEvents.Instance.GameWon();
+
         }
 
         public override void Exit()

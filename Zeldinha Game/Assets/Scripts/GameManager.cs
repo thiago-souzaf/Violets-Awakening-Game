@@ -14,14 +14,20 @@ public class GameManager : Singleton<GameManager>
     public bool hasBossKey;
 
     public List<Interaction> interactableObjects;
+
+    // Boss
+    [Header("Boss")]
+    public GameObject boss;
+    public GameObject hiddenWalls;
+    public BossBattleHandler bossBattleHandler;
+
     private void Start()
     {
+        bossBattleHandler = new();
     }
 
     private void Update()
     {
-		
-    } 
-
-    
+        bossBattleHandler.Update();
+    }
 }

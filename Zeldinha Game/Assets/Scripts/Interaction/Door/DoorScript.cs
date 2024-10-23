@@ -66,6 +66,7 @@ public class DoorScript : MonoBehaviour
         else if (requiredKey.itemType == ItemType.BossKey)
         {
             GameManager.Instance.hasBossKey = false;
+            GlobalEvents.Instance.BossDoorOpen();
         }
 
         // Disable interaction

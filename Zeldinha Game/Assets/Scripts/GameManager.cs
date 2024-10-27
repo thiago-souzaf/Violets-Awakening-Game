@@ -21,9 +21,28 @@ public class GameManager : Singleton<GameManager>
     public GameObject hiddenWalls;
     public BossBattleHandler bossBattleHandler;
 
+    // Audio
+    [Header("Audio")]
+    public AudioSource musicAudioSource;
+    public AudioSource ambienceAudioSource;
+    public AudioSource bossBattleAudioSource;
+
     private void Start()
     {
         bossBattleHandler = new();
+
+
+        // Play audio sources
+        float musicTargetVolume = musicAudioSource.volume;
+        musicAudioSource.volume = 0.0f;
+        StartCoroutine(FadeAudioSource.StartFade(musicAudioSource, musicTargetVolume, 1.0f));
+        musicAudioSource.Play();
+
+        float ambienceTargetVolume = ambienceAudioSource.volume;
+        ambienceAudioSource.volume = 0.0f;
+        StartCoroutine(FadeAudioSource.StartFade(ambienceAudioSource, ambienceTargetVolume, 1.0f));
+        ambienceAudioSource.Play();
+
     }
 
     private void Update()

@@ -13,7 +13,19 @@ public class Intro : State
         base.Enter();
 
         // Enable hidden parts
-        GameManager.Instance.hiddenWalls.SetActive(true);
+        GameManager gameManager = GameManager.Instance;
+
+        gameManager.hiddenWalls.SetActive(true);
+
+
+        // Stop gameplay music
+        gameManager.StartCoroutine(FadeAudioSource.StartFade(gameManager.musicAudioSource, 0.0f, 1.0f));
+
+
+        float bossBattleTargetVolume = gameManager.bossBattleAudioSource.volume;
+        gameManager.bossBattleAudioSource.volume = 0.0f;
+        gameManager.StartCoroutine(FadeAudioSource.StartFade(gameManager.bossBattleAudioSource, bossBattleTargetVolume, 1.0f));
+        gameManager.bossBattleAudioSource.Play();
     }
 
     public override void Exit()

@@ -59,6 +59,8 @@ namespace Behaviors.MeleeCreatures.States
                 m_controller.stateMachine.ChangeState(m_controller.idleState);
                 return;
             }
+
+            m_helper.FacePlayer();
         }
 
         private IEnumerator ScheduleAttack()
@@ -69,6 +71,7 @@ namespace Behaviors.MeleeCreatures.States
 
         private void PerformAttack()
         {
+            bool hasHit = false;
             Vector3 origin = m_controller.transform.position + m_controller.transform.forward * m_controller.attackRadius;
             int playerLayer = LayerMask.GetMask("Player");
             Collider[] colliders = Physics.OverlapSphere(origin, m_controller.attackSphereRadius, playerLayer);
@@ -78,9 +81,11 @@ namespace Behaviors.MeleeCreatures.States
                 Debug.Log("Hit object: " + collider.gameObject.name);
                 if (collider.TryGetComponent(out Life lifeScript))
                 {
-                    lifeScript.TakeDamage(m_controller.gameObject, m_controller.attackDamage);
+                    hasHit = lifeScript.TakeDamage(m_controller.gameObject, m_controller.attackDamage);
                 }
             }
+
+            m_helper.PlayAttackSound(hasHit);
         }
     }
 }

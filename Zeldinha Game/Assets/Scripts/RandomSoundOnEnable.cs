@@ -1,6 +1,7 @@
 using UnityEngine;
 
-public class RandomSoundOnAwake : MonoBehaviour
+[RequireComponent(typeof(AudioSource))]
+public class RandomSoundOnEnable : MonoBehaviour
 {
 	[SerializeField] private AudioClip[] audioClips;
     private AudioSource audioSource;
@@ -10,7 +11,7 @@ public class RandomSoundOnAwake : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
     }
 
-    private void Start()
+    private void OnEnable()
     {
         AudioClip randomClip = audioClips[Random.Range(0, audioClips.Length)];
         audioSource.PlayOneShot(randomClip);

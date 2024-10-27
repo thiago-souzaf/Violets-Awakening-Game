@@ -45,11 +45,18 @@ public class MeleeCreatureController : MonoBehaviour
     [Header("Dead")]
     public float destroyIfFar = 30f;
 
+    [Header("Audio")]
+    public AudioClip attackHitSound;
+    public AudioClip attackMissSound;
+    public AudioClip deadSound;
+    [HideInInspector] public AudioSource audioSource;
+
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
         lifeScript = GetComponent<Life>();
         animator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
 
         helper = new MeleeCreatureHelper(this);
         thisCollider = GetComponent<Collider>();

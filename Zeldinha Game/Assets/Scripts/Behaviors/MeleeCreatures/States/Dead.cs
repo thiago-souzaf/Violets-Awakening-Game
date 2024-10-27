@@ -1,6 +1,7 @@
+using UnityEngine;
+
 namespace Behaviors.MeleeCreatures.States
 {
-
     public class Dead : State
     {
         private MeleeCreatureController m_controller;
@@ -22,11 +23,24 @@ namespace Behaviors.MeleeCreatures.States
 
             // Deactivate Collider
             m_controller.thisCollider.enabled = false;
+
+            // Play dead sound
+            m_helper.PlayDeadSound();
         }
 
         public override void Exit()
         {
             base.Exit();
+        }
+        public override void Update()
+        {
+            base.Update();
+
+            // Destroy if too far
+            if (m_helper.GetDistanceToPlayer() > m_controller.destroyIfFar)
+            {
+                Object.Destroy(m_controller.gameObject);
+            }
         }
 
         public override void FixedUpdate()
@@ -39,9 +53,5 @@ namespace Behaviors.MeleeCreatures.States
             base.LateUpdate();
         }
 
-        public override void Update()
-        {
-            base.Update();
-        }
     }
 }

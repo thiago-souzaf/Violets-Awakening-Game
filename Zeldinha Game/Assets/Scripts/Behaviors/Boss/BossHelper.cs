@@ -18,7 +18,7 @@ public class BossHelper
 
     public bool HasLowHealth()
     {
-        return m_controller.lifeScript.GetHealthPercentage() <= m_controller.lowHealthThreshold;
+        return m_controller.lifeScript.GetHealthRate() <= m_controller.lowHealthThreshold;
     }
 
     public void InstatiateProjectile(GameObject projectilePrefab)

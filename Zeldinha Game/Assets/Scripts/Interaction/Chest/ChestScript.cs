@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(Interaction))]
 public class ChestScript : MonoBehaviour
@@ -8,7 +9,9 @@ public class ChestScript : MonoBehaviour
 
     public Transform itemHolder;
 
-    public ItemObject so_itemInside;
+    public ItemObject itemInside;
+
+    public UnityEvent OnOpen;
 
     private void Awake()
     {
@@ -25,12 +28,12 @@ public class ChestScript : MonoBehaviour
     {
         interaction.isAvailable = false;
         anim.SetTrigger("tOpen");
-        GameObject objectInside = Instantiate(so_itemInside.objectPrefab, itemHolder.position, so_itemInside.objectPrefab.transform.rotation);
+        GameObject objectInside = Instantiate(itemInside.objectPrefab, itemHolder.position, itemInside.objectPrefab.transform.rotation);
         objectInside.transform.SetParent(itemHolder);
-        objectInside.transform.localScale = so_itemInside.objectScale * Vector3.one;
-        Debug.Log("Player opened a chest containing a " + so_itemInside.displayName);
+        objectInside.transform.localScale = itemInside.objectScale * Vector3.one;
+        Debug.Log("Player opened a chest containing a " + itemInside.displayName);
 
-        ItemType itemType = so_itemInside.itemType;
+        ItemType itemType = itemInside.itemType;
         if (itemType == ItemType.Key)
         {
             GameManager.Instance.keys++;
@@ -43,5 +46,7 @@ public class ChestScript : MonoBehaviour
         {
             GameManager.Instance.player.GetComponent<Life>().Heal();
         }
+
+        OnOpen?.Invoke();
     }
 }

@@ -17,11 +17,17 @@ public class Interaction : MonoBehaviour
 
     public event EventHandler<InteractionEventArgs> OnInteract;
 
+    // Audio
+    [Header("Audio")]
+    private AudioSource audioSource;
+    [SerializeField] private AudioClip interactionAudio;
+
     private void Awake()
     {
         go_widget = Instantiate(widgetPrefab, transform.position + widgetOffset, Quaternion.identity);
         go_widget.transform.SetParent(this.transform);
         m_interactionWidget = go_widget.GetComponent<InteractionWidget>();
+        audioSource = GetComponent<AudioSource>();
     }
     private void Start()
     {
@@ -51,6 +57,10 @@ public class Interaction : MonoBehaviour
     public void Interact()
     {
         OnInteract?.Invoke(this, new InteractionEventArgs());
+        if (interactionAudio != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(interactionAudio);
+        }
     }
 
     private void OnDrawGizmos()

@@ -31,6 +31,7 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public Collider col;
     [HideInInspector] public Life lifeScript;
     [HideInInspector] public bool hasJumpInput;
+    private AudioSource audioSource;
 
     // Slope
     private bool isOnSlope;
@@ -45,13 +46,15 @@ public class PlayerController : MonoBehaviour
     public List<int> attackDamagePerStage;
     public GameObject swordHitBox;
     [SerializeField] private float swordKnockbackImpulse;
+    [SerializeField] private GameObject swordHitEffect;
+    [SerializeField] private AudioClip swordAttackAudio;
 
 
     // Defend
     [Header("Defend")]
-    [HideInInspector] public bool hasDefenseInput;
     public GameObject shieldHitbox;
     [SerializeField] private float shieldKnockbackImpulse;
+    [HideInInspector] public bool hasDefenseInput;
 
 
     private void Awake()
@@ -59,10 +62,13 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
         col = GetComponent<Collider>();
+        audioSource = GetComponent<AudioSource>();
 
 
         lifeScript = GetComponent<Life>();
         lifeScript.OnDamage += OnDamage;
+        lifeScript.canTakeDamage += CanTakeDamage;
+
     }
     private void Start()
     {
@@ -78,13 +84,12 @@ public class PlayerController : MonoBehaviour
         swordHitBox.SetActive(false);
         shieldHitbox.SetActive(false);
 
+        swordHitEffect.transform.position = swordHitBox.transform.position;
+        swordHitEffect.SetActive(false);
     }
 
     private void Update()
     {
-
-        
-
         // Read Input
         bool isUp = Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow);
         bool isDown = Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow);
@@ -171,6 +176,7 @@ public class PlayerController : MonoBehaviour
                 int attackStage = isAttacking ? (attackState.stage + 1) : 1;
                 attackState.stage = attackStage;
                 stateMachine.ChangeState(attackState);
+                audioSource.PlayOneShot(swordAttackAudio);
                 return true;
             }
         }
@@ -196,8 +202,12 @@ public class PlayerController : MonoBehaviour
         // Damage
         if (other_go.TryGetComponent(out Life other_life))
         {
-            other_life.TakeDamage(gameObject, attackDamagePerStage[attackState.stage - 1]);
+            if (other_life.TakeDamage(gameObject, attackDamagePerStage[attackState.stage - 1]))
+            {
+                PlaySwordHitEffect();
+            }
         }
+
     }
 
     public void OnShieldCollisionEnter(Collider other)
@@ -276,6 +286,16 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void PlaySwordHitEffect()
+    {
+        if (swordHitEffect.activeSelf)
+        {
+            swordHitEffect.SetActive(false);
+
+        }
+        swordHitEffect.SetActive(true);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("BossRoomSensor"))
@@ -283,5 +303,23 @@ public class PlayerController : MonoBehaviour
             GlobalEvents.Instance.BossRoomEnter();
             Destroy(other.gameObject);
         }
+    }
+
+    private bool CanTakeDamage(GameObject attacker, int damage)
+    {
+        bool isDefending = stateMachine.CurrentStateName == defendState.name;
+
+        if (!isDefending)
+        {
+            return true;
+        }
+
+        Vector3 attackerDirection = (this.transform.position - attacker.transform.position).normalized;
+
+        if (Vector3.Dot(attackerDirection, this.transform.forward) > -0.25f)
+        {
+            return true;
+        }
+        return false;
     }
 }

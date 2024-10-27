@@ -41,6 +41,39 @@ public class MeleeCreatureHelper
 		// Player on sight!
         return true;
     }
+
+	public void FacePlayer()
+	{
+		Vector3 playerPosition = GameManager.Instance.player.transform.position;
+        Vector3 direction = playerPosition - m_controller.transform.position;
+		direction.y = 0.0f;
+
+        Quaternion targetRotation = Quaternion.LookRotation(direction);
+        m_controller.transform.rotation = Quaternion.Slerp(m_controller.transform.rotation, targetRotation, 0.1f);
+    }
+
+	public void PlayAttackSound(bool hasHit)
+	{
+		if (m_controller.audioSource == null)
+		{
+			return;
+		}
+
+		if (hasHit && m_controller.attackHitSound)
+		{
+			m_controller.audioSource.PlayOneShot(m_controller.attackHitSound);
+		}
+		else if (!hasHit && m_controller.attackMissSound)
+		{
+			m_controller.audioSource.PlayOneShot(m_controller.attackMissSound);
+		}
+	}
+
+	public void PlayDeadSound()
+	{
+		if (m_controller.audioSource != null && m_controller.deadSound != null)
+		{
+            m_controller.audioSource.PlayOneShot(m_controller.deadSound);
+		}
+	}
 }
-
-

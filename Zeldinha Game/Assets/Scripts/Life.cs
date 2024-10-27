@@ -10,6 +10,10 @@ public class Life : MonoBehaviour
 
     public event EventHandler<DamageEventArgs> OnDamage;
 
+    public delegate bool CanTakeDamage(GameObject attacker, int damage);
+    public event CanTakeDamage canTakeDamage;
+
+
     [SerializeField] private GameObject m_healEffect;  
 
     private void Start()
@@ -17,18 +21,25 @@ public class Life : MonoBehaviour
         m_currentHealth = maxHealth;
     }
 
-    public void TakeDamage(GameObject attacker, int damage)
+    public bool TakeDamage(GameObject attacker, int damage)
     {
         if (!isVunerable)
         {
-            return;
+            return false;
         }
+
+        if (canTakeDamage != null && !canTakeDamage(attacker, damage))
+        {
+            return false;
+        }
+
         m_currentHealth -= damage;
         OnDamage?.Invoke(sender: this, e: new DamageEventArgs
         {
             damage = damage,
             attacker = attacker
         });
+        return true;
     }
     public bool IsDead()
     {
@@ -44,7 +55,7 @@ public class Life : MonoBehaviour
         Destroy(effect, 5.0f);
     }
 
-    public float GetHealthPercentage()
+    public float GetHealthRate()
     {
         return (float)m_currentHealth / maxHealth;
     }

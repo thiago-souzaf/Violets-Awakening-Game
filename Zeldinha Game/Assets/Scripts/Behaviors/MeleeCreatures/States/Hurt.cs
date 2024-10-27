@@ -30,6 +30,10 @@ namespace Behaviors.MeleeCreatures.States
 
             // Set animation trigger
             m_controller.animator.SetTrigger("tHurt");
+
+            // Change what system is controlling the creature
+            m_controller.agent.enabled = false;
+            m_controller.rigidbody.isKinematic = false;
         }
 
         public override void Exit()
@@ -37,6 +41,10 @@ namespace Behaviors.MeleeCreatures.States
             base.Exit();
 
             m_controller.lifeScript.isVunerable = true;
+
+            // Change what system is controlling the creature
+            m_controller.agent.enabled = true;
+            m_controller.rigidbody.isKinematic = true;
         }
 
         public override void FixedUpdate()

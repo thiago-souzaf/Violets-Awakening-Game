@@ -187,17 +187,7 @@ public class PlayerController : MonoBehaviour
     {
         GameObject other_go = other.gameObject;
         bool isTarget = other_go.layer == LayerMask.NameToLayer("Target");
-
-        // Knockback
         if (!isTarget) return;
-
-        if (other_go.TryGetComponent(out Rigidbody other_rb))
-        {
-            Vector3 positionDiff = other_go.transform.position - transform.position;
-            Vector3 impulseVector = new(positionDiff.x, 0.0f, positionDiff.z);
-            impulseVector = impulseVector.normalized * swordKnockbackImpulse;
-            other_rb.AddForce(impulseVector, ForceMode.Impulse);
-        }
 
         // Damage
         if (other_go.TryGetComponent(out Life other_life))
@@ -208,6 +198,14 @@ public class PlayerController : MonoBehaviour
             }
         }
 
+        // Knockback
+        if (other_go.TryGetComponent(out Rigidbody other_rb))
+        {
+            Vector3 positionDiff = other_go.transform.position - transform.position;
+            Vector3 impulseVector = new(positionDiff.x, 0.0f, positionDiff.z);
+            impulseVector = impulseVector.normalized * swordKnockbackImpulse;
+            other_rb.AddForce(impulseVector, ForceMode.Impulse);
+        }
     }
 
     public void OnShieldCollisionEnter(Collider other)

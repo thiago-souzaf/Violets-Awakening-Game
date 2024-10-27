@@ -9,6 +9,7 @@ public class MeleeCreatureController : MonoBehaviour
     [HideInInspector] public Life lifeScript;
     [HideInInspector] public Animator animator;
     [HideInInspector] public Collider thisCollider;
+    [HideInInspector] public new Rigidbody rigidbody;
 
     // Debug fields
     [Header("Debug")]
@@ -57,6 +58,7 @@ public class MeleeCreatureController : MonoBehaviour
         lifeScript = GetComponent<Life>();
         animator = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
+        rigidbody = GetComponent<Rigidbody>();
 
         helper = new MeleeCreatureHelper(this);
         thisCollider = GetComponent<Collider>();

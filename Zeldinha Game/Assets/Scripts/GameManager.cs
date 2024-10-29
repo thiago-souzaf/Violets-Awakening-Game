@@ -27,6 +27,11 @@ public class GameManager : Singleton<GameManager>
     public AudioSource ambienceAudioSource;
     public AudioSource bossBattleAudioSource;
 
+    // UI
+    [Header("UI")]
+    public GameplayUI gameplayUI;
+    [SerializeField] private float timeToEnableGameplayUI;
+
     private void Start()
     {
         bossBattleHandler = new();
@@ -43,10 +48,18 @@ public class GameManager : Singleton<GameManager>
         StartCoroutine(FadeAudioSource.StartFade(ambienceAudioSource, ambienceTargetVolume, 1.0f));
         ambienceAudioSource.Play();
 
+
+        gameplayUI.gameObject.SetActive(false);
+        Invoke(nameof(EnableGameplayUI), timeToEnableGameplayUI);
     }
 
     private void Update()
     {
         bossBattleHandler.Update();
+    }
+
+    private void EnableGameplayUI()
+    {
+        gameplayUI.gameObject.SetActive(true);
     }
 }

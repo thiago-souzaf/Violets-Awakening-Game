@@ -67,6 +67,7 @@ public class PlayerController : MonoBehaviour
 
         lifeScript = GetComponent<Life>();
         lifeScript.OnDamage += OnDamage;
+        lifeScript.OnHeal += OnHeal;
         lifeScript.canTakeDamage += CanTakeDamage;
 
     }
@@ -86,6 +87,9 @@ public class PlayerController : MonoBehaviour
 
         swordHitEffect.transform.position = swordHitBox.transform.position;
         swordHitEffect.SetActive(false);
+
+        // UI
+        GameManager.Instance.gameplayUI.playerHealthBar.SetMaxHealth(lifeScript.maxHealth);
     }
 
     private void Update()
@@ -253,10 +257,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void OnDamage(object sender, DamageEventArgs e)
-    {
-        Debug.Log("Player has been damaged by " + e.attacker.name + " with " + e.damage + " damage");
-    }
+    
 
     private void OnDrawGizmosSelected()
     {
@@ -303,6 +304,18 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+
+    private void OnDamage(object sender, DamageEventArgs e)
+    {
+        Debug.Log("Player has been damaged by " + e.attacker.name + " with " + e.damage + " damage");
+        GameManager.Instance.gameplayUI.playerHealthBar.SetHealth(lifeScript.CurrentHealth);
+    }
+
+    private void OnHeal()
+    {
+        Debug.Log("Player has received a cure!");
+        GameManager.Instance.gameplayUI.playerHealthBar.SetHealth(lifeScript.CurrentHealth);
+    }
     private bool CanTakeDamage(GameObject attacker, int damage)
     {
         bool isDefending = stateMachine.CurrentStateName == defendState.name;

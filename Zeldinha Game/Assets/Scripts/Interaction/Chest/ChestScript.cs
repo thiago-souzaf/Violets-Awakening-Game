@@ -47,6 +47,10 @@ public class ChestScript : MonoBehaviour
             GameManager.Instance.player.GetComponent<Life>().Heal();
         }
 
+        // Update UI
+        GameManager.Instance.gameplayUI.AddItem(itemType);
+
+
         OnOpen?.Invoke();
     }
 }

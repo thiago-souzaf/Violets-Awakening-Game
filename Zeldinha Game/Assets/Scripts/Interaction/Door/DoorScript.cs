@@ -71,6 +71,9 @@ public class DoorScript : MonoBehaviour
 
         // Disable interaction
         m_interaction.isAvailable = false;
+
+        // Update UI
+        GameManager.Instance.gameplayUI.RemoveItem(requiredKey.itemType);
     }
 
     private void CloseDoor()

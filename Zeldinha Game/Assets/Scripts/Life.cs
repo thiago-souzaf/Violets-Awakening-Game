@@ -4,11 +4,13 @@ using UnityEngine;
 public class Life : MonoBehaviour
 {
     public int maxHealth;
-    [SerializeField] private int m_currentHealth;
+    public int CurrentHealth { get; private set; }
 
     public bool isVunerable = true;
 
     public event EventHandler<DamageEventArgs> OnDamage;
+
+    public event Action OnHeal;
 
     public delegate bool CanTakeDamage(GameObject attacker, int damage);
     public event CanTakeDamage canTakeDamage;
@@ -18,7 +20,7 @@ public class Life : MonoBehaviour
 
     private void Start()
     {
-        m_currentHealth = maxHealth;
+        CurrentHealth = maxHealth;
     }
 
     public bool TakeDamage(GameObject attacker, int damage)
@@ -33,7 +35,7 @@ public class Life : MonoBehaviour
             return false;
         }
 
-        m_currentHealth -= damage;
+        CurrentHealth -= damage;
         OnDamage?.Invoke(sender: this, e: new DamageEventArgs
         {
             damage = damage,
@@ -43,20 +45,22 @@ public class Life : MonoBehaviour
     }
     public bool IsDead()
     {
-        return m_currentHealth <= 0;
+        return CurrentHealth <= 0;
     }
 
     public void Heal()
     {
-        m_currentHealth = maxHealth;
+        CurrentHealth = maxHealth;
         
         var effect = Instantiate(m_healEffect, transform.position, m_healEffect.transform.rotation);
         effect.transform.SetParent(transform);
         Destroy(effect, 5.0f);
+
+        OnHeal?.Invoke();
     }
 
     public float GetHealthRate()
     {
-        return (float)m_currentHealth / maxHealth;
+        return (float)CurrentHealth / maxHealth;
     }
 }

@@ -90,6 +90,9 @@ public class BossController : MonoBehaviour
         stateMachine.ChangeState(idleState);
 
         lifeScript.OnDamage += OnDamage;
+
+        // UI
+        GameManager.Instance.gameplayUI.bossHealthBar.SetMaxHealth(lifeScript.maxHealth);
     }
 
     private void Update()
@@ -131,6 +134,8 @@ public class BossController : MonoBehaviour
         Debug.Log("Creature has been damaged by " + e.attacker.name + " with " + e.damage + " damage");
 
         stateMachine.ChangeState(hurtState);
+        // UI
+        GameManager.Instance.gameplayUI.bossHealthBar.SetHealth(lifeScript.CurrentHealth);
     }
 
     private void OnDrawGizmos()

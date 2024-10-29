@@ -9,7 +9,14 @@ public class Disabled : State
     public override void Enter()
     {
         base.Enter();
-        GameManager.Instance.boss.SetActive(false);
+
+        GameManager gameManager = GameManager.Instance;
+        gameManager.boss.SetActive(false);
+
+        // UI
+
+        gameManager.gameplayUI.ToggleBossBar(false);
+
     }
 
     public override void Exit()

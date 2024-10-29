@@ -18,14 +18,16 @@ public class Intro : State
         gameManager.hiddenWalls.SetActive(true);
 
 
-        // Stop gameplay music
+        // Music
         gameManager.StartCoroutine(FadeAudioSource.StartFade(gameManager.musicAudioSource, 0.0f, 1.0f));
-
-
         float bossBattleTargetVolume = gameManager.bossBattleAudioSource.volume;
         gameManager.bossBattleAudioSource.volume = 0.0f;
         gameManager.StartCoroutine(FadeAudioSource.StartFade(gameManager.bossBattleAudioSource, bossBattleTargetVolume, 1.0f));
         gameManager.bossBattleAudioSource.Play();
+
+        // UI
+        gameManager.gameplayUI.ToggleBossBar(true);
+
     }
 
     public override void Exit()

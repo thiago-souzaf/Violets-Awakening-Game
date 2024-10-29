@@ -97,6 +97,8 @@ public class BossController : MonoBehaviour
 
     private void Update()
     {
+
+
         if (GameManager.Instance.bossBattleHandler.IsBossBattling())
         {
             stateMachine.Update();

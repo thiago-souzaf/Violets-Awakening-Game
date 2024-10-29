@@ -26,6 +26,11 @@ namespace Behaviors.Boss.States
         public override void Update()
         {
             base.Update();
+
+            if (GameManager.Instance.IsGameOver)
+            {
+                return;
+            }
             m_stateDuration += Time.deltaTime;
 
             // Switch to follow state

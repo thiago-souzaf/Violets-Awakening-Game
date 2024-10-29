@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour
     public Dead deadState;
     public Attack attackState;
     public Defend defendState;
+    public Hurt hurtState;
 
     // Internal fields
     [HideInInspector] public Vector2 movementVector;
@@ -56,6 +57,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float shieldKnockbackImpulse;
     [HideInInspector] public bool hasDefenseInput;
 
+    // Hurt
+    [Header("Hurt")]
+    public float hurtDuration = 0.2f;
+
 
     private void Awake()
     {
@@ -80,6 +85,7 @@ public class PlayerController : MonoBehaviour
         deadState = new(this);
         attackState = new(this);
         defendState = new(this);
+        hurtState = new(this);
         stateMachine.ChangeState(idleState);
 
         swordHitBox.SetActive(false);
@@ -309,6 +315,7 @@ public class PlayerController : MonoBehaviour
     {
         Debug.Log("Player has been damaged by " + e.attacker.name + " with " + e.damage + " damage");
         GameManager.Instance.gameplayUI.playerHealthBar.SetHealth(lifeScript.CurrentHealth);
+        stateMachine.ChangeState(hurtState);
     }
 
     private void OnHeal()

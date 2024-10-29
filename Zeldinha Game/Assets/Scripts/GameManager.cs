@@ -4,6 +4,8 @@ using UnityEngine;
 public class GameManager : Singleton<GameManager>
 {
 
+    public bool IsGameOver { get; private set; }
+
     [Header("Physics")]
     public LayerMask groundLayer;
     public GameObject player;
@@ -51,6 +53,8 @@ public class GameManager : Singleton<GameManager>
 
         gameplayUI.gameObject.SetActive(false);
         Invoke(nameof(EnableGameplayUI), timeToEnableGameplayUI);
+
+        GlobalEvents.Instance.OnGameOver += (_, _) => { IsGameOver = true; };
     }
 
     private void Update()

@@ -37,6 +37,12 @@ namespace Behaviors.MeleeCreatures.States
         public override void Update()
         {
             base.Update();
+
+            if (GameManager.Instance.IsGameOver)
+            {
+                return;
+            }
+
             searchCooldown -= Time.deltaTime;
             if (searchCooldown <= 0)
             {

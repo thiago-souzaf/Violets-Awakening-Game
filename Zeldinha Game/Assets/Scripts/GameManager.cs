@@ -22,6 +22,7 @@ public class GameManager : Singleton<GameManager>
     public GameObject boss;
     public GameObject hiddenWalls;
     public BossBattleHandler bossBattleHandler;
+    public GameObject bossDeathSequencePrefab;
 
     // Audio
     [Header("Audio")]

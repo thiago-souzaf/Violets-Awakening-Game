@@ -38,4 +38,10 @@ public class BossHelper
 
         Object.Destroy(projectile, 10);
     }
+
+    public void PlayDeathSequence()
+    {
+        GameObject deathSequenceEffect = GameManager.Instance.bossDeathSequencePrefab;
+        Object.Instantiate(deathSequenceEffect, m_controller.transform.position, Quaternion.identity);
+    }
 }

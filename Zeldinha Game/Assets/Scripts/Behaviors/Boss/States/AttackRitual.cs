@@ -6,11 +6,13 @@ namespace Behaviors.Boss.States
     public class AttackRitual : State
     {
         private BossController m_controller;
+        private BossHelper m_helper;
 
         private float m_attackCooldown;
         public AttackRitual(BossController bossController) : base("AttackRitual")
         {
             m_controller = bossController;
+            m_helper = m_controller.helper;
         }
 
         public override void Enter()
@@ -54,9 +56,7 @@ namespace Behaviors.Boss.States
 
         private void PerformAttack()
         {
-            GameObject areaOfEffect = Object.Instantiate(m_controller.attackRitualPrefab, m_controller.bottomStaff.position, Quaternion.identity);
-
-            Object.Destroy(areaOfEffect, 10);
+            m_helper.InstatiateAreaOfEffect(m_controller.attackRitualPrefab, m_controller.attackRitualExplosionDelay);
         }
     }
 }

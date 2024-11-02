@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class BossHelper
@@ -39,6 +40,35 @@ public class BossHelper
         Object.Destroy(projectile, 10);
     }
 
+    public void InstatiateAreaOfEffect(GameObject aoePrefab, float explosionDelay)
+    {
+        GameObject areaOfEffect = Object.Instantiate(aoePrefab, m_controller.bottomStaff.position, Quaternion.identity);
+
+        Object.Destroy(areaOfEffect, 5);
+
+        m_controller.StartCoroutine(DealAreaOfEffectDamage(areaOfEffect.transform.position, explosionDelay));
+    }
+
+    private IEnumerator DealAreaOfEffectDamage(Vector3 aoePosition, float explosionDelay)
+    {
+        yield return new WaitForSeconds(explosionDelay);
+
+        var playerLayer = LayerMask.GetMask("Player");
+        Collider[] colliders = Physics.OverlapSphere(aoePosition, m_controller.attackRitualRadius, playerLayer);
+
+        foreach (var collider in colliders)
+        {
+            if (collider.CompareTag("Player"))
+            {
+                collider.GetComponent<Life>().TakeDamage(m_controller.gameObject, m_controller.attackDamage);
+            }
+        }
+
+        // Play explosion sound
+        m_controller.audioSource.PlayOneShot(m_controller.attackRitualExplosionSound);
+    }
+
+    
     public void PlayDeathSequence()
     {
         GameObject deathSequenceEffect = GameManager.Instance.bossDeathSequencePrefab;

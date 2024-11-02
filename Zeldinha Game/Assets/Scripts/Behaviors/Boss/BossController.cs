@@ -11,6 +11,7 @@ public class BossController : MonoBehaviour
     [HideInInspector] public Life lifeScript;
     [HideInInspector] public Animator animator;
     [HideInInspector] public Collider thisCollider;
+    [HideInInspector] public AudioSource audioSource;
 
     // Debug fields
     [Header("Debug")]
@@ -54,7 +55,10 @@ public class BossController : MonoBehaviour
     [Header("Attack Ritual")]
     public float distanceToRitualAttack = 1f;
     public float attackRitualDelay = 0f;
+    public float attackRitualExplosionDelay = 0.5f;
     public float attackRitualDuration = 1f;
+    public float attackRitualRadius = 1f;
+    public AudioClip attackRitualExplosionSound;
 
     [Header("Attack Super")]
     public int attackSuperMagicCount = 5;
@@ -69,6 +73,7 @@ public class BossController : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         lifeScript = GetComponent<Life>();
         animator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
 
         helper = new BossHelper(this);
         thisCollider = GetComponent<Collider>();
@@ -144,6 +149,9 @@ public class BossController : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, distanceToRitualAttack);
+
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(bottomStaff.position, attackRitualRadius);
     }
 
     public void RegisterCoroutine(IEnumerator coroutine)

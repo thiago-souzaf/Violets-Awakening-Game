@@ -1680,7 +1680,7 @@ GameObject:
   - component: {fileID: 117217565}
   m_Layer: 0
   m_Name: Lava Plane
-  m_TagString: Untagged
+  m_TagString: Lava
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3547,6 +3547,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7859674227297321077, guid: 3a4e59267143f9447abb6214cbc7240c,
         type: 3}
+      propertyPath: jumpSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 4e349dc959014a845b9aa317d1c2b7f0, type: 3}
+    - target: {fileID: 7859674227297321077, guid: 3a4e59267143f9447abb6214cbc7240c,
+        type: 3}
+      propertyPath: landSound
+      value: 
+      objectReference: {fileID: 8300000, guid: eaae8fe8d600e1f459f34aa5757fa3b8, type: 3}
+    - target: {fileID: 7859674227297321077, guid: 3a4e59267143f9447abb6214cbc7240c,
+        type: 3}
       propertyPath: swordHitEffect
       value: 
       objectReference: {fileID: 1816575857}
@@ -3555,6 +3565,12 @@ PrefabInstance:
       propertyPath: swordMissAudio
       value: 
       objectReference: {fileID: 8300000, guid: 323e15cfe809e114ab92c9f4b25e8bc2, type: 3}
+    - target: {fileID: 7859674227297321077, guid: 3a4e59267143f9447abb6214cbc7240c,
+        type: 3}
+      propertyPath: jumpEffectPrefab
+      value: 
+      objectReference: {fileID: 1551494778287644, guid: 2397a83c1173b4e44a8dbf09f58850c1,
+        type: 3}
     - target: {fileID: 7859674227297321077, guid: 3a4e59267143f9447abb6214cbc7240c,
         type: 3}
       propertyPath: swordAttackAudio
@@ -15228,6 +15244,8 @@ PrefabInstance:
     m_RemovedGameObjects:
     - {fileID: 6178560656956052087, guid: 626f2b1e2dda84f4887c84bab2c169c1, type: 3}
     - {fileID: 7944950066723516057, guid: 626f2b1e2dda84f4887c84bab2c169c1, type: 3}
+    - {fileID: 5293456959198760203, guid: 626f2b1e2dda84f4887c84bab2c169c1, type: 3}
+    - {fileID: 2540414879446585272, guid: 626f2b1e2dda84f4887c84bab2c169c1, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 626f2b1e2dda84f4887c84bab2c169c1, type: 3}
@@ -16832,7 +16850,7 @@ PrefabInstance:
     - target: {fileID: 3913077315541481415, guid: 6d1d0e3bd6133ec439afa9951ecfed9b,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 28
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 3913077315541481415, guid: 6d1d0e3bd6133ec439afa9951ecfed9b,
         type: 3}
@@ -23515,6 +23533,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Lava Golem
+      objectReference: {fileID: 0}
+    - target: {fileID: 6181067951788977352, guid: 83b9cc7e7dbe4264a86a2473c397fab6,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6182301659744146730, guid: 83b9cc7e7dbe4264a86a2473c397fab6,
         type: 3}

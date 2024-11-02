@@ -9,6 +9,9 @@ public class PlayerController : MonoBehaviour
     public float JumpMovementFactor = 1f;
     [Tooltip("Distance of the raycast to detect the ground")]
     public float downRayDistance = 0.0f;
+    public GameObject jumpEffectPrefab;
+    public AudioClip jumpSound;
+    public AudioClip landSound;
 
     [Header("Movement")]
     public float MovementSpeed = 30f;
@@ -157,6 +160,14 @@ public class PlayerController : MonoBehaviour
         {
             GlobalEvents.Instance.BossRoomEnter();
             Destroy(other.gameObject);
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Lava"))
+        {
+            lifeScript.TakeDamage(gameObject, lifeScript.maxHealth);
         }
     }
 
@@ -364,6 +375,11 @@ public class PlayerController : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    public void PlaySound(AudioClip clip)
+    {
+        audioSource.PlayOneShot(clip);
     }
     private void OnDrawGizmosSelected()
     {

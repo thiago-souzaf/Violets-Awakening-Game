@@ -6,6 +6,7 @@ TagManager:
   tags:
   - FxTemporaire
   - BossRoomSensor
+  - Lava
   layers:
   - Default
   - TransparentFX

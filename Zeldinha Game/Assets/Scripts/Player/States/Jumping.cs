@@ -19,12 +19,26 @@ namespace Player.States
             cooldown = 0.5f;
 
             controller.anim.SetBool("bIsJumping", true);
+
+            // Create effect
+            var jumpEffect = Object.Instantiate(controller.jumpEffectPrefab, controller.transform.position, Quaternion.identity);
+            Object.Destroy(jumpEffect, 1f);
+
+            // Play jumping sound
+            controller.PlaySound(controller.jumpSound);
         }
 
         public override void Exit()
         {
             base.Exit();
             controller.anim.SetBool("bIsJumping", false);
+
+            // Create effect
+            var jumpEffect = Object.Instantiate(controller.jumpEffectPrefab, controller.transform.position, Quaternion.identity);
+            Object.Destroy(jumpEffect, 1f);
+
+            // Play landing sound
+            controller.PlaySound(controller.landSound);
 
         }
 

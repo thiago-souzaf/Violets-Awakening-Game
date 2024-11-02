@@ -5,11 +5,13 @@ namespace Behaviors.Boss.States
     public class Hurt : State
     {
         private BossController m_controller;
+        private BossHelper m_helper;
         private float m_stateTime;
+        private bool attackedOnLastHurt = false;
         public Hurt(BossController bossController) : base("Hurt")
         {
             m_controller = bossController;
-
+            m_helper = m_controller.helper;
         }
 
         public override void Enter()
@@ -29,6 +31,13 @@ namespace Behaviors.Boss.States
 
             // Set animation trigger
             m_controller.animator.SetTrigger("tHurt");
+
+            if (!attackedOnLastHurt)
+            {
+                m_helper.InstatiateAreaOfEffect(m_controller.attackRitualPrefab, m_controller.attackRitualExplosionDelay);
+            }
+
+            attackedOnLastHurt = !attackedOnLastHurt;
         }
 
         public override void Exit()

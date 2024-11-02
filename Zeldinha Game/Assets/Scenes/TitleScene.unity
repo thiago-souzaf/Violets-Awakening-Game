@@ -4179,6 +4179,7 @@ PrefabInstance:
     - {fileID: 8077699400224023126, guid: 3a4e59267143f9447abb6214cbc7240c, type: 3}
     - {fileID: 655107662958689841, guid: 3a4e59267143f9447abb6214cbc7240c, type: 3}
     - {fileID: 344333798399627604, guid: 3a4e59267143f9447abb6214cbc7240c, type: 3}
+    - {fileID: 8632628855864743933, guid: 3a4e59267143f9447abb6214cbc7240c, type: 3}
     m_RemovedGameObjects:
     - {fileID: 420279797969472188, guid: 3a4e59267143f9447abb6214cbc7240c, type: 3}
     m_AddedGameObjects:
@@ -9313,7 +9314,7 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 19.23
+  m_Intensity: 15
   m_Range: 8.7
   m_SpotAngle: 54.8702
   m_InnerSpotAngle: 34.687386

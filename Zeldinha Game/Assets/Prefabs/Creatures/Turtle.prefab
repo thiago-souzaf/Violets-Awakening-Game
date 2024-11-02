@@ -345,8 +345,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60ab3dd547826e54eb2f6785e928511a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 5
-  m_currentHealth: 0
+  maxHealth: 8
   isVunerable: 1
   m_healEffect: {fileID: 0}
 --- !u!82 &8249866725173558520

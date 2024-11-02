@@ -29,7 +29,6 @@ public class GameplayUI : MonoBehaviour
 	{
 		if (type != ItemType.Key && type != ItemType.BossKey)
         {
-            Debug.LogError("Invalid item type");
             return;
         }
 

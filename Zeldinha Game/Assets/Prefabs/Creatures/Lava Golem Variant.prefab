@@ -237,7 +237,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6181067951788977352}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 4
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -254,7 +254,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 116
   m_CollisionDetection: 0
 --- !u!114 &6367008428551472605
 MonoBehaviour:
@@ -269,7 +269,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 10
-  m_currentHealth: 0
   isVunerable: 1
   m_healEffect: {fileID: 0}
 --- !u!114 &2560409986447525010
@@ -288,6 +287,7 @@ MonoBehaviour:
   lifeScript: {fileID: 6367008428551472605}
   animator: {fileID: 6095200324949318624}
   thisCollider: {fileID: 1096824032011096481}
+  rigidbody: {fileID: 0}
   _currentStateName: Attack
   searchRadius: 15
   targetSearchInterval: 0.2
@@ -298,7 +298,7 @@ MonoBehaviour:
   damageDelay: 1
   attackDuration: 2
   attackDamage: 1
-  hurtDuration: 0.4
+  hurtDuration: 0.6
   destroyIfFar: 20
   attackHitSound: {fileID: 8300000, guid: 4aa8d94c2c734f1488e15e672594dbfa, type: 3}
   attackMissSound: {fileID: 8300000, guid: f11db4559b3ffff45b62e9327fc5535d, type: 3}

@@ -60,6 +60,8 @@ public class PlayerController : MonoBehaviour
     public GameObject shieldHitbox;
     [SerializeField] private float shieldKnockbackImpulse;
     [HideInInspector] public bool hasDefenseInput;
+    public GameObject defendEffectPrefab;
+    public AudioClip defendSound;
 
     // Hurt
     [Header("Hurt")]
@@ -275,9 +277,8 @@ public class PlayerController : MonoBehaviour
     public void OnShieldCollisionEnter(Collider other)
     {
         GameObject other_go = other.gameObject;
-        bool isTarget = true;
 
-        if (isTarget && other_go.TryGetComponent(out Rigidbody other_rb))
+        if (other_go.TryGetComponent(out Rigidbody other_rb))
         {
             Vector3 positionDiff = other_go.transform.position - transform.position;
             Vector3 impulseVector = new(positionDiff.x, 0.0f, positionDiff.z);
@@ -374,6 +375,14 @@ public class PlayerController : MonoBehaviour
         {
             return true;
         }
+
+        // Create defense effect
+        var defendEffect = Instantiate(defendEffectPrefab, shieldHitbox.transform.position, Quaternion.identity);
+        Destroy(defendEffect, 1.0f);
+
+        // Play defense sound
+        PlaySound(defendSound);
+
         return false;
     }
 

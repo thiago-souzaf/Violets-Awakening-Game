@@ -266,6 +266,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1891079467113359707}
+    - targetCorrespondingSourceObject: {fileID: 100048, guid: 7ed3e345f07e89940ae0c1e00eeb7d1d,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1819026838138490804}
   m_SourcePrefab: {fileID: 100100000, guid: 7ed3e345f07e89940ae0c1e00eeb7d1d, type: 3}
 --- !u!1 &1226929167208733245 stripped
 GameObject:
@@ -333,7 +337,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.6
-  m_Speed: 0.2
+  m_Speed: 1
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -361,6 +365,7 @@ MonoBehaviour:
   lifeScript: {fileID: 0}
   animator: {fileID: 0}
   thisCollider: {fileID: 0}
+  audioSource: {fileID: 0}
   _currentStateName: 
   lowHealthThreshold: 0.3
   topStaff: {fileID: 5354720067119266020}
@@ -376,15 +381,19 @@ MonoBehaviour:
     type: 3}
   attackNormalDelay: 0.6666667
   attackNormalDuration: 1
-  attackNormalImpulse: 15
+  attackNormalImpulse: 12
   aimOffset: {x: 0, y: 0.7, z: 0}
   distanceToRitualAttack: 7
   attackRitualDelay: 0.6
+  attackRitualExplosionDelay: 2
   attackRitualDuration: 2
+  attackRitualRadius: 4
+  attackRitualExplosionSound: {fileID: 8300000, guid: 1d74880bed4586644a16a79a2d9dc8af,
+    type: 3}
   attackSuperMagicCount: 5
   attackSuperMagicDelay: 0.6
   attackSuperMagicDuration: 2
-  hurtDuration: 0.1
+  hurtDuration: 0.4
 --- !u!114 &1891079467113359707
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -398,9 +407,104 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 20
-  m_currentHealth: 0
   isVunerable: 1
   m_healEffect: {fileID: 0}
+--- !u!82 &1819026838138490804
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1226929167208733245}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!4 &1226929167208891973 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400040, guid: 7ed3e345f07e89940ae0c1e00eeb7d1d,

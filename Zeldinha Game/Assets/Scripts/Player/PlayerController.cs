@@ -95,7 +95,6 @@ public class PlayerController : MonoBehaviour
         stateMachine.ChangeState(idleState);
 
         swordHitBox.SetActive(false);
-        shieldHitbox.SetActive(false);
 
         swordHitEffect.transform.position = swordHitBox.transform.position;
         swordHitEffect.SetActive(false);
@@ -276,6 +275,8 @@ public class PlayerController : MonoBehaviour
 
     public void OnShieldCollisionEnter(Collider other)
     {
+        return;
+
         GameObject other_go = other.gameObject;
 
         if (other_go.TryGetComponent(out Rigidbody other_rb))

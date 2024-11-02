@@ -624,18 +624,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed829cae226f0e64e882480c750791f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  agent: {fileID: 0}
-  lifeScript: {fileID: 0}
-  animator: {fileID: 0}
-  thisCollider: {fileID: 0}
-  rigidbody: {fileID: 0}
+  agent: {fileID: -2783749164934768993}
+  lifeScript: {fileID: 3423941486426207473}
+  animator: {fileID: 8006493026052285694}
+  thisCollider: {fileID: 5661839053314488622}
+  rigidbody: {fileID: -484448294690150798}
   _currentStateName: 
   searchRadius: 10
   targetSearchInterval: 0.3
   ceaseFollowInterval: 10
-  distanceToAttack: 1.5
-  attackRadius: 1.81
-  attackSphereRadius: 1
+  distanceToAttack: 3.5
+  attackRadius: 3.5
+  attackSphereRadius: 1.12
   damageDelay: 0.3
   attackDuration: 1
   attackDamage: 2
@@ -644,7 +644,7 @@ MonoBehaviour:
   attackHitSound: {fileID: 8300000, guid: 7c47b20bb9874304a809dc5580d403ba, type: 3}
   attackMissSound: {fileID: 8300000, guid: f11db4559b3ffff45b62e9327fc5535d, type: 3}
   deadSound: {fileID: 8300000, guid: 566d2ea6240b489479a6e9fd608c2621, type: 3}
-  audioSource: {fileID: 0}
+  audioSource: {fileID: -1321294817319427703}
 --- !u!114 &3423941486426207473
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -74,16 +74,26 @@ namespace Behaviors.MeleeCreatures.States
             bool hasHit = false;
             Vector3 origin = m_controller.transform.position + m_controller.transform.forward * m_controller.attackRadius;
             int playerLayer = LayerMask.GetMask("Player");
-            Collider[] colliders = Physics.OverlapSphere(origin, m_controller.attackSphereRadius, playerLayer);
+            //Collider[] colliders = Physics.OverlapSphere(origin, m_controller.attackSphereRadius, playerLayer);
 
-            foreach (Collider collider in colliders)
+            if (Physics.SphereCast(m_controller.transform.position, m_controller.attackSphereRadius, m_controller.transform.forward, out var hitInfo, m_controller.attackRadius, playerLayer))
             {
-                Debug.Log("Hit object: " + collider.gameObject.name);
-                if (collider.TryGetComponent(out Life lifeScript))
+                Debug.Log(" has hit: " + hitInfo.collider.gameObject.name);
+                if (hitInfo.collider.gameObject.TryGetComponent(out Life playerLifeScript))
                 {
-                    hasHit = lifeScript.TakeDamage(m_controller.gameObject, m_controller.attackDamage);
+                    hasHit = playerLifeScript.TakeDamage(m_controller.gameObject, m_controller.attackDamage);
                 }
             }
+
+
+            //foreach (Collider collider in colliders)
+            //{
+            //    Debug.Log("Hit object: " + collider.gameObject.name);
+            //    if (collider.TryGetComponent(out Life lifeScript))
+            //    {
+            //        hasHit = lifeScript.TakeDamage(m_controller.gameObject, m_controller.attackDamage);
+            //    }
+            //}
 
             m_helper.PlayAttackSound(hasHit);
         }

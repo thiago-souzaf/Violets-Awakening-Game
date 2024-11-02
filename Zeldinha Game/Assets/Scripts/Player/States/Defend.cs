@@ -12,14 +12,14 @@ namespace Player.States
         {
             base.Enter();
             controller.anim.SetBool("bDefend", true);
-            controller.shieldHitbox.SetActive(true);
+            //controller.shieldHitbox.SetActive(true);
         }
 
         public override void Exit()
         {
             base.Exit();
             controller.anim.SetBool("bDefend", false);
-            controller.shieldHitbox.SetActive(false);
+            //controller.shieldHitbox.SetActive(false);
 
         }
 

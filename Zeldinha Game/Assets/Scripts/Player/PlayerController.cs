@@ -49,6 +49,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float swordKnockbackImpulse;
     [SerializeField] private GameObject swordHitEffect;
     [SerializeField] private AudioClip swordAttackAudio;
+    [SerializeField] float maxDistanceToLook = 5.0f;
 
 
     // Defend
@@ -150,6 +151,14 @@ public class PlayerController : MonoBehaviour
     {
         stateMachine.LateUpdate();
     }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("BossRoomSensor"))
+        {
+            GlobalEvents.Instance.BossRoomEnter();
+            Destroy(other.gameObject);
+        }
+    }
 
     public Quaternion GetCameraRotation()
     {
@@ -166,6 +175,40 @@ public class PlayerController : MonoBehaviour
         Camera cam = Camera.main;
         Vector3 inputVector = new(movementVector.x, 0, movementVector.y);
         Quaternion q1 = Quaternion.LookRotation(inputVector);
+        Quaternion q2 = Quaternion.Euler(0, cam.transform.eulerAngles.y, 0);
+        Quaternion toRotation = q1 * q2;
+        Quaternion smoothRotation = Quaternion.Lerp(transform.rotation, toRotation, alpha);
+
+        // Apply rotation
+        rb.MoveRotation(smoothRotation);
+    }
+
+    public void FaceClosestEnemy(float alpha)
+    {
+        RotateBodyToFaceInput(alpha);
+
+        List<GameObject> enemies = GameManager.Instance.enemies;
+        if (enemies.Count == 0) return;
+
+        float closestDistance = float.MaxValue;
+        Vector3 closestEnemyDirection = Vector3.zero;
+        foreach (var enemy in enemies)
+        {
+            Vector3 enemyDirection = enemy.transform.position - transform.position;
+            float distance = enemyDirection.magnitude;
+            bool isInRange = distance < maxDistanceToLook;
+            bool isInFrontOfPlayer = Vector3.Dot(enemyDirection.normalized, transform.forward) > 0.5f;
+            if (isInRange && distance < closestDistance && isInFrontOfPlayer)
+            {
+                closestDistance = distance;
+                closestEnemyDirection = enemyDirection;
+            }
+        }
+
+        if (closestEnemyDirection.IsZero()) return;
+        Camera cam = Camera.main;
+        closestEnemyDirection.y = 0;
+        Quaternion q1 = Quaternion.LookRotation(closestEnemyDirection);
         Quaternion q2 = Quaternion.Euler(0, cam.transform.eulerAngles.y, 0);
         Quaternion toRotation = q1 * q2;
         Quaternion smoothRotation = Quaternion.Lerp(transform.rotation, toRotation, alpha);
@@ -263,14 +306,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    
-
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.white;
-        Gizmos.DrawRay(transform.position, transform.forward * downRayDistance);
-    }
-
     private void LimitSpeed()
     {
         if (isOnSlope)
@@ -301,16 +336,6 @@ public class PlayerController : MonoBehaviour
         swordHitEffect.SetActive(true);
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("BossRoomSensor"))
-        {
-            GlobalEvents.Instance.BossRoomEnter();
-            Destroy(other.gameObject);
-        }
-    }
-
-
     private void OnDamage(object sender, DamageEventArgs e)
     {
         Debug.Log("Player has been damaged by " + e.attacker.name + " with " + e.damage + " damage");
@@ -339,5 +364,13 @@ public class PlayerController : MonoBehaviour
             return true;
         }
         return false;
+    }
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.white;
+        Gizmos.DrawRay(transform.position, transform.forward * downRayDistance);
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, maxDistanceToLook);
     }
 }

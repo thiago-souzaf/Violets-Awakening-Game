@@ -16,6 +16,7 @@ public class GameManager : Singleton<GameManager>
     public bool hasBossKey;
 
     public List<Interaction> interactableObjects;
+    public List<GameObject> enemies;
 
     // Boss
     [Header("Boss")]

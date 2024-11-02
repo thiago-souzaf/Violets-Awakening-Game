@@ -78,6 +78,9 @@ public class MeleeCreatureController : MonoBehaviour
         stateMachine.ChangeState(idleState);
 
         lifeScript.OnDamage += OnDamage;
+        lifeScript.OnDeath += () => GameManager.Instance.enemies.Remove(this.gameObject);
+
+        GameManager.Instance.enemies.Add(this.gameObject);
     }
 
     private void Update()

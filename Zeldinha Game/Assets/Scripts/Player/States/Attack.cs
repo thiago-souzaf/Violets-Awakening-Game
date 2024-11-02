@@ -16,7 +16,7 @@ namespace Player.States
         public override void Enter()
         {
             base.Enter();
-            controller.RotateBodyToFaceInput(1);
+            controller.FaceClosestEnemy(1);
             controller.anim.SetTrigger("tAttack" + stage);
             stateTime = 0;
 
@@ -31,7 +31,6 @@ namespace Player.States
         public override void Exit()
         {
             base.Exit();
-            controller.swordHitBox.SetActive(false);
 
         }
 
@@ -48,10 +47,22 @@ namespace Player.States
             // Update state time
             stateTime += Time.deltaTime;
 
+            if (controller.swordHitBox.activeSelf && IsAttackDone())
+            {
+                controller.swordHitBox.SetActive(false);
+            }
+
             // Exit after time
             if (IsStageExpired())
             {
                 controller.stateMachine.ChangeState(controller.idleState);
+                return;
+            }
+
+
+            if (!controller.movementVector.IsZero() && IsAttackDone())
+            {
+                controller.stateMachine.ChangeState(controller.walkingState);
                 return;
             }
         }
@@ -67,12 +78,13 @@ namespace Player.States
 
         public bool CanSwitchStages()
         {
-            bool isLastState = stage == controller.attackStages;
+
+            bool isLastStage = stage == controller.attackStages;
             float stageDuration = controller.attackStageDurations[stage - 1];
-            float stageMaxInterval = isLastState ? 0 : controller.attackStageMaxIntervals[stage - 1];
+            float stageMaxInterval = isLastStage ? 0 : controller.attackStageMaxIntervals[stage - 1];
             float maxStageDuration = stageDuration + stageMaxInterval;
 
-            return !isLastState && stateTime >= stageDuration && stateTime <= maxStageDuration;
+            return !isLastStage && stateTime >= stageDuration && stateTime <= maxStageDuration;
         }
 
         public bool IsStageExpired()
@@ -83,6 +95,12 @@ namespace Player.States
             float maxStageDuration = stageDuration + stageMaxInterval;
 
             return stateTime > maxStageDuration;
+        }
+
+        public bool IsAttackDone()
+        {
+            var stageDuration = controller.attackStageDurations[controller.attackStages - 1];
+            return stateTime > stageDuration;
         }
     }
 }

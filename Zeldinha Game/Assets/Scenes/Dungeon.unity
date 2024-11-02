@@ -3560,6 +3560,21 @@ PrefabInstance:
       propertyPath: swordAttackAudio
       value: 
       objectReference: {fileID: 8300000, guid: 323e15cfe809e114ab92c9f4b25e8bc2, type: 3}
+    - target: {fileID: 7859674227297321077, guid: 3a4e59267143f9447abb6214cbc7240c,
+        type: 3}
+      propertyPath: swordKnockbackImpulse
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7859674227297321077, guid: 3a4e59267143f9447abb6214cbc7240c,
+        type: 3}
+      propertyPath: attackDamagePerStage.Array.data[1]
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7859674227297321077, guid: 3a4e59267143f9447abb6214cbc7240c,
+        type: 3}
+      propertyPath: attackDamagePerStage.Array.data[2]
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7867470551245853147, guid: 3a4e59267143f9447abb6214cbc7240c,
         type: 3}
       propertyPath: m_Layer
@@ -14426,6 +14441,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1234105331}
   - component: {fileID: 1234105330}
+  - component: {fileID: 1234105332}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -14450,8 +14466,9 @@ MonoBehaviour:
     m_Bits: 64
   player: {fileID: 950506879}
   keys: 0
-  hasBossKey: 1
+  hasBossKey: 0
   interactableObjects: []
+  enemies: []
   boss: {fileID: 6819976029341393460}
   hiddenWalls: {fileID: 1501090240}
   bossDeathSequencePrefab: {fileID: 8338965728212694700, guid: 3d5d7fd490fb2464ca84efdadbfcb75c,
@@ -14476,6 +14493,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1234105332
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1234105329}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3cffdb46051d8f45bd5129c8c718f36, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1254543932 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 511011005861271238, guid: 8ed639904abdf68409880ff93f4c63da,

@@ -11,6 +11,7 @@ public class Life : MonoBehaviour
     public event EventHandler<DamageEventArgs> OnDamage;
 
     public event Action OnHeal;
+    public event Action OnDeath;
 
     public delegate bool CanTakeDamage(GameObject attacker, int damage);
     public event CanTakeDamage canTakeDamage;
@@ -41,6 +42,11 @@ public class Life : MonoBehaviour
             damage = damage,
             attacker = attacker
         });
+
+        if (IsDead())
+        {
+            OnDeath?.Invoke();
+        }
         return true;
     }
     public bool IsDead()

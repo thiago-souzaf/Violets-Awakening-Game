@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.06431641, g: 0.025170278, b: 0.22894804, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -10080,6 +10080,21 @@ PrefabInstance:
         type: 3}
       propertyPath: fadeDuration
       value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6959211768869277459, guid: fb7a8dfc3d2c3214dba543c575677825,
+        type: 3}
+      propertyPath: m_MatchWidthOrHeight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6959211768869277459, guid: fb7a8dfc3d2c3214dba543c575677825,
+        type: 3}
+      propertyPath: m_ReferenceResolution.x
+      value: 800
+      objectReference: {fileID: 0}
+    - target: {fileID: 6959211768869277459, guid: fb7a8dfc3d2c3214dba543c575677825,
+        type: 3}
+      propertyPath: m_ReferenceResolution.y
+      value: 450
       objectReference: {fileID: 0}
     - target: {fileID: 6985269304332060810, guid: fb7a8dfc3d2c3214dba543c575677825,
         type: 3}
